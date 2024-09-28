@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,16 +15,40 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class DriveConstants {
 
+  public static final class MotorConstants {
+    public static final int kNeoMotorMaxRPM = 5676;
   }
 
-  public static class IntakeConstants {
-    
+  public static final class DriveConstants {
+    public static final int kLeftFrontMotorCANID = 17;
+    public static final int kLeftBackMotorCANID = 17;
+    public static final int kRightFrontMotorCANID = 17;
+    public static final int kRightBackMotorCANID = 17;
+
+    public static final boolean kLeftFrontMotorInverted = false;
+    public static final boolean kLeftBackMotorInverted = false;
+    public static final boolean kRightFrontMotorInverted = false;
+    public static final boolean kRightBackMotorInverted = false;
+
+    public static final IdleMode kMotorIdleMode = IdleMode.kBrake;
+
+    public static final int kSmartCurrentLimit = 30;
   }
 
-  public static class ShooterConstants {
-    
+  public static final class IntakeConstants {
+    public static final int kMotorCANID = 17;
+  }
+
+  public static final class IndexConstants {
+    public static final int kMotorCANID = 17;
+  }
+
+  public static final class ShooterConstants {
+    public static final int kLeftMotorCANID = 17;
+    public static final int kRightMotorCANID = 17;
+
+    public static final int kSmartCurrentLimit = 30;
   }
 
   public static class OperatorConstants {
