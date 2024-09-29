@@ -44,9 +44,9 @@ public final class Constants {
     // idle mode
     public static final IdleMode kIntakeMotorIdleMode = IdleMode.kBrake;
     // inverted
-    public static final boolean kIntakeMotorInverted = false;
+    public static final boolean kIntakeMotorInverted = false; // <-- going to change this mab idk
     // "smartlimit"
-    public static final int kSmartCurrentLimitIntake = 30;
+    public static final int kSmartCurrentLimitIntake = 30; // limits the power usage
   }
 
   public static final class IndexConstants {
