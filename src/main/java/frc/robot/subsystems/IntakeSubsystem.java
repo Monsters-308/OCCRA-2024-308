@@ -14,7 +14,7 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 
   // getting the motor of the intake. :3
-  CANSparkMax IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
 
   public IntakeSubsystem(){
       // sets the motor settings 
@@ -25,12 +25,8 @@ public class IntakeSubsystem extends SubsystemBase {
       IntakeMotor.setInverted(IntakeConstants.kIntakeMotorInverted);
 
   }
-  
 
-  // edit the speed if needed just type speed = xF
-  private static float speed = 0.5F;
-
-  public void IntakeSpin(){
+  public void IntakeSpin(double speed){
     IntakeMotor.set(speed);
 
 
@@ -38,9 +34,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void IntakeUnspin(){
     IntakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
-    
-
-
   }
 
 
