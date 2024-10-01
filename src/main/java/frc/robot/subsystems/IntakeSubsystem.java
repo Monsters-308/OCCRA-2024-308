@@ -4,17 +4,46 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
+  // getting the motor of the intake. :3
+  private final CANSparkMax IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
+
+  public IntakeSubsystem(){
+      // sets the motor settings 
+      IntakeMotor.restoreFactoryDefaults(); // <-- restores to default
+      IntakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
+      IntakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
+      IntakeMotor.burnFlash();
+      IntakeMotor.setInverted(IntakeConstants.kIntakeMotorInverted);
 
   }
+
+  public void IntakeSpin(double speed){
+    IntakeMotor.set(speed);
+
+
+  }
+
+  public void IntakeUnspin(){
+    IntakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
+  }
+
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler run :3
   }
+
 }
+
+// rip for my insanity and rip to the consumer layout :(
+
+

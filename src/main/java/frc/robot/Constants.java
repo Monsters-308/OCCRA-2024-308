@@ -21,11 +21,13 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
+    // ID for the motors.
     public static final int kLeftFrontMotorCANID = 17;
     public static final int kLeftBackMotorCANID = 17;
     public static final int kRightFrontMotorCANID = 17;
     public static final int kRightBackMotorCANID = 17;
 
+    // config the inverted for each of the motors.
     public static final boolean kLeftFrontMotorInverted = false;
     public static final boolean kLeftBackMotorInverted = false;
     public static final boolean kRightFrontMotorInverted = false;
@@ -37,7 +39,14 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kMotorCANID = 17;
+    // ID for Intake
+    public static final int kIntakeMotorCANID = 17;
+    // idle mode
+    public static final IdleMode kIntakeMotorIdleMode = IdleMode.kBrake;
+    // inverted
+    public static final boolean kIntakeMotorInverted = false; // <-- going to change this mab idk
+    // "smartlimit"
+    public static final int kSmartCurrentLimitIntake = 30; // limits the power usage :3
   }
 
   public static final class IndexConstants {
