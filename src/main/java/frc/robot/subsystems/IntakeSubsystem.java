@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Consumer;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -14,31 +12,34 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-private static final Object[] Intake = null;
 
   // getting the motor of the intake. :3
-  CANSparkMax IntakeMotor1 = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
+  CANSparkMax IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
 
   public IntakeSubsystem(){
-    applyToAll((Intake) -> {
-      Intake.restoreFactoryDefaults(); // <-- restores to default
-      Intake.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
-      Intake.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
-      Intake.burnFlash();
-    });
-      IntakeMotor1.setInverted(IntakeConstants.kIntakeMotorInverted);
-    
-
+      // sets the motor settings 
+      IntakeMotor.restoreFactoryDefaults(); // <-- restores to default
+      IntakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
+      IntakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
+      IntakeMotor.burnFlash();
+      IntakeMotor.setInverted(IntakeConstants.kIntakeMotorInverted);
 
   }
+  
 
+  // edit the speed if needed just type speed = xF
+  private static float speed = 0.5F;
 
   public void IntakeSpin(){
-    IntakeMotor1.set(0.5);// <-- idk what speed and if we want a const speed.
+    IntakeMotor.set(speed);
+
+
   }
 
   public void IntakeUnspin(){
-    IntakeMotor1.set(0);
+    IntakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
+    
+
 
   }
 
@@ -48,21 +49,8 @@ private static final Object[] Intake = null;
     // This method will be called once per scheduler run
   }
 
-
-  /**
-   * @param func
-   */
-  private void applyToAll(Consumer<CANSparkMax> func){
-    CANSparkMax[] Intake = {IntakeMotor1}; // <- I just made this consumer to make it easy if we need more motors. for example {Intakemotor1, Intakemotor2}
-
-    for (int i = 0; i < Intake.length; i++){
-      func.accept(Intake[i]);
-
-    }
-
-  }
 }
 
-
+// rip for my insanity and rip to the consumer layout :(
 
 
