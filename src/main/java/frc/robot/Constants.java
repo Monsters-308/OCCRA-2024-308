@@ -46,7 +46,7 @@ public final class Constants {
     // inverted
     public static final boolean kIntakeMotorInverted = false; // <-- going to change this mab idk
     // "smartlimit"
-    public static final int kSmartCurrentLimitIntake = 30; // limits the power usage
+    public static final int kSmartCurrentLimitIntake = 30; // limits the power usage :3
   }
 
   public static final class IndexConstants {
