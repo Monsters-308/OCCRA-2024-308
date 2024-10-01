@@ -10,7 +10,7 @@ public class IndexSubsystem extends SubsystemBase {
 
   /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
-    
+    System.out.println("test");
   }
 
   @Override
