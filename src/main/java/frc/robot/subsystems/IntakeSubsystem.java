@@ -13,29 +13,39 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // getting the motor of the intake. :3
+  // getting the motor of the index
   private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
 
+  /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(){
       // sets the motor settings 
       intakeMotor.restoreFactoryDefaults(); // <-- restores to default
       intakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
       intakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
-      intakeMotor.setInverted(false);
+      intakeMotor.setInverted(IntakeConstants.kIntakeInverted);
       intakeMotor.burnFlash();
   }
 
-  public void setInverted(boolean inverted) {
-    intakeMotor.setInverted(inverted);
-    intakeMotor.burnFlash();
+  /**
+   * Gets the current speed of the intake.
+   */
+  public double getMotorSpeed() {
+    return intakeMotor.get();
   }
 
-  public void runMotor(double speed){
+  /**
+   * Starts the intake.
+   * @param speed How fast the intake motor should spin. Goes from -1 to 1, with -1 being full reverse and 1 being full forwards.
+   */
+  public void setMotorSpeed(double speed) {
     intakeMotor.set(speed);
   }
 
-  public void stopMotor(){
-    intakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
+  /**
+   * Stops the intake. This should be done after the ball exits the indexer.
+   */
+  public void stopMotor() {
+    intakeMotor.set(0);
   }
 
 
@@ -45,7 +55,3 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
 }
-
-// rip for my insanity and rip to the consumer layout :(
-
-

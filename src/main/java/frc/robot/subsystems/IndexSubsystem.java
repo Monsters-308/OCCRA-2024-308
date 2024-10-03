@@ -12,26 +12,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
 
 public class IndexSubsystem extends SubsystemBase {
-  private final CANSparkMax indexMotor = new CANSparkMax(IndexConstants.kIndexMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax indexMotor = new CANSparkMax(IndexConstants.kIndexMotorCANID, MotorType.kBrushless);  
 
   /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
     indexMotor.restoreFactoryDefaults();
     indexMotor.setSmartCurrentLimit(IndexConstants.kSmartCurrentLimitIntake);
     indexMotor.setIdleMode(IndexConstants.kIndexMotorIdleMode);
+    indexMotor.setInverted(IndexConstants.kIndexInverted);
     indexMotor.burnFlash();
   }
 
-  public void runMotor(double speed) {
+  /**
+   * Gets the current speed of the indexer.
+   */
+  public double getMotorSpeed() {
+    return indexMotor.get();
+  }
+
+  /**
+   * Starts the index.
+   * @param speed How fast the index motor should spin. Goes from -1 to 1, with -1 being full reverse and 1 being full forwards.
+   */
+  public void setMotorSpeed(double speed) {
     indexMotor.set(speed);
   }
 
-  public void setInverted(boolean inverted) {
-    indexMotor.setInverted(inverted);
-    indexMotor.burnFlash();
-  }
-
-  public void stopMotor(double speed) {
+  /**
+   * Stops the indexer. This should be done after the ball exits the indexer.
+   */
+  public void stopMotor() {
     indexMotor.set(0);
   }
 

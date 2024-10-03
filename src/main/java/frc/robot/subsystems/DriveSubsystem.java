@@ -21,7 +21,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     
-    applyAllMotors((motor) -> {
+    applyAllMotors(motor -> {
       // Reset factory defaults
       motor.restoreFactoryDefaults();
       // "smart limit"
@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     leftBackMotor.setInverted(DriveConstants.kLeftBackMotorInverted);
     rightBackMotor.setInverted(DriveConstants.kRightBackMotorInverted);
 
-    applyAllMotors((motor) -> motor.burnFlash());
+    applyAllMotors(motor -> motor.burnFlash());
   }
 
   /**

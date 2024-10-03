@@ -45,6 +45,8 @@ public final class Constants {
     public static final IdleMode kIntakeMotorIdleMode = IdleMode.kBrake;
     // "smartlimit"
     public static final int kSmartCurrentLimitIntake = 30; // limits the power usage :3
+
+    public static final boolean kIntakeInverted = false; // make intake invert (positive = intake, negative = outtake) 
   }
 
   public static final class IndexConstants {
@@ -53,13 +55,19 @@ public final class Constants {
     public static final IdleMode kIndexMotorIdleMode = IdleMode.kBrake;
 
     public static final int kSmartCurrentLimitIntake = 30;
+    
+    public static final boolean kIndexInverted = false; // make intake invert (positive = intake, negative = outtake) 
   }
 
   public static final class ShooterConstants {
-    public static final int kLeftMotorCANID = 17;
-    public static final int kRightMotorCANID = 17;
+    public static final int kShooterTopMotorCANID = 17;
+    public static final int kShooterBottomMotorCANID = 17;
+
+    public static final IdleMode kIndexMotorIdleMode = IdleMode.kBrake;
 
     public static final int kSmartCurrentLimit = 30;
+
+    public static final boolean kShooterMotorInverted = false; // make intake invert (positive = intake, negative = outtake)
   }
 
   public static class OperatorConstants {
