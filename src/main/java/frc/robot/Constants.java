@@ -43,14 +43,16 @@ public final class Constants {
     public static final int kIntakeMotorCANID = 17;
     // idle mode
     public static final IdleMode kIntakeMotorIdleMode = IdleMode.kBrake;
-    // inverted
-    public static final boolean kIntakeMotorInverted = false; // <-- going to change this mab idk
     // "smartlimit"
     public static final int kSmartCurrentLimitIntake = 30; // limits the power usage :3
   }
 
   public static final class IndexConstants {
-    public static final int kMotorCANID = 17;
+    public static final int kIndexMotorCANID = 17;
+
+    public static final IdleMode kIndexMotorIdleMode = IdleMode.kBrake;
+
+    public static final int kSmartCurrentLimitIntake = 30;
   }
 
   public static final class ShooterConstants {

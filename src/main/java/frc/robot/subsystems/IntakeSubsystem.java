@@ -14,26 +14,28 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 
   // getting the motor of the intake. :3
-  private final CANSparkMax IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
 
   public IntakeSubsystem(){
       // sets the motor settings 
-      IntakeMotor.restoreFactoryDefaults(); // <-- restores to default
-      IntakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
-      IntakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
-      IntakeMotor.burnFlash();
-      IntakeMotor.setInverted(IntakeConstants.kIntakeMotorInverted);
-
+      intakeMotor.restoreFactoryDefaults(); // <-- restores to default
+      intakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
+      intakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
+      intakeMotor.setInverted(false);
+      intakeMotor.burnFlash();
   }
 
-  public void IntakeSpin(double speed){
-    IntakeMotor.set(speed);
-
-
+  public void setInverted(boolean inverted) {
+    intakeMotor.setInverted(inverted);
+    intakeMotor.burnFlash();
   }
 
-  public void IntakeUnspin(){
-    IntakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
+  public void runMotor(double speed){
+    intakeMotor.set(speed);
+  }
+
+  public void stopMotor(){
+    intakeMotor.set(0); // or can I use IntakeMotor.stopMotor();
   }
 
 
