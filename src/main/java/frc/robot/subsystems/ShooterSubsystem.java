@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
-import java.util.function.Consumer;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -15,29 +15,42 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-   private final CANSparkMax motor = new CANSparkMax(ShooterConstants.kShooterTopMotorCANID, MotorType.kBrushless);
-   private final CANSparkMax shootMotorBottom = new CANSparkMax(ShooterConstants.kShooterBottomMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax topShootMotor = new CANSparkMax(ShooterConstants.kShooterTopMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax bottomShootMotor = new CANSparkMax(ShooterConstants.kShooterBottomMotorCANID, MotorType.kBrushless);
+
+  private final SparkPIDController topMotorPIDController = topShootMotor.getPIDController();
+  private final SparkPIDController bottomMotorPIDController = bottomShootMotor.getPIDController();
+
+  private final RelativeEncoder topMotorEncoder = topShootMotor.getEncoder();
+  private final RelativeEncoder bottomMotorEncoder = bottomShootMotor.getEncoder();
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    applyAllMotors(motor -> {
-      motor.restoreFactoryDefaults();
-      motor.setIdleMode(ShooterConstants.kIndexMotorIdleMode);
-      motor.setInverted(ShooterConstants.kShooterMotorInverted);
-      motor.burnFlash();
-    });
-  }
+    topMotorPIDController.setP(ShooterConstants.kVelocityP);
+    topMotorPIDController.setI(ShooterConstants.kVelocityI);
+    topMotorPIDController.setD(ShooterConstants.kVelocityD);
+    topMotorPIDController.setFF(ShooterConstants.kVelocityFF);
 
-  /**
-   * Applies a function to every drive motor.
-   * @param function This function is called for every motor. It passes one CANSparkMax object into the function.
-   */
-  private void applyAllMotors(Consumer<CANSparkMax> function) {
-    CANSparkMax[] motors = {motor, shootMotorBottom};
+    topMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
+    topMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
 
-    for (int i = 0; i < motors.length; i++) {
-      function.accept(motors[i]);
-    }
+    topShootMotor.restoreFactoryDefaults();
+    topShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
+    topShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
+    topShootMotor.burnFlash();
+
+    bottomMotorPIDController.setP(ShooterConstants.kVelocityP);
+    bottomMotorPIDController.setI(ShooterConstants.kVelocityI);
+    bottomMotorPIDController.setD(ShooterConstants.kVelocityD);
+    bottomMotorPIDController.setFF(ShooterConstants.kVelocityFF);
+
+    bottomMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
+    bottomMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
+
+    bottomShootMotor.restoreFactoryDefaults();
+    bottomShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
+    bottomShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
+    bottomShootMotor.burnFlash();
   }
   
   @Override
@@ -45,6 +58,3 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
-
-
-// ADD PID

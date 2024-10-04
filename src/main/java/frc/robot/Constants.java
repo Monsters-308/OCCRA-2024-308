@@ -63,11 +63,24 @@ public final class Constants {
     public static final int kShooterTopMotorCANID = 17;
     public static final int kShooterBottomMotorCANID = 17;
 
-    public static final IdleMode kIndexMotorIdleMode = IdleMode.kBrake;
+    public static final IdleMode kShooterMotorIdleMode = IdleMode.kBrake;
 
     public static final int kSmartCurrentLimit = 30;
 
     public static final boolean kShooterMotorInverted = false; // make intake invert (positive = intake, negative = outtake)
+
+    public static final double kWheelDiamter = 6;
+    public static final double kWheelCircumference = Math.PI * kWheelDiamter;
+    public static final double kGearRatio = 1;
+    public static final double kMaxMetersPerSecond = ((MotorConstants.kNeoMotorMaxRPM / 60) * kWheelCircumference) / kGearRatio;
+
+    public static final double kVelocityP = 1;
+    public static final double kVelocityI = 1;
+    public static final double kVelocityD = 1;
+    public static final double kVelocityFF = 1 / kMaxMetersPerSecond;
+    
+    public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
+    public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
   }
 
   public static class OperatorConstants {
