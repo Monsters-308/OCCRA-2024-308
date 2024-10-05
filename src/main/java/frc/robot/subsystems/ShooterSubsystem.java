@@ -59,6 +59,11 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomMotorPIDController.setReference(bottomSpeed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
   }
 
+  public void startShooter(double speed) {
+    topMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
+    bottomMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
+  }
+
   public void stopShooter() {
     topShootMotor.set(0);
     bottomShootMotor.set(0);

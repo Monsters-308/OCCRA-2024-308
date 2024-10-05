@@ -69,6 +69,7 @@ public final class Constants {
   public static final class IndexConstants {
     // Channel for Index
     public static final int kIndexMotorChannel = 17;
+    public static final int kBallSensorPort = 1;
     
      // make index invert (positive = forwards, negative = backwards) 
     public static final boolean kIndexInverted = false;
@@ -96,9 +97,16 @@ public final class Constants {
     
     public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
+
+    public static final double backSpin = 0;
   }
 
-  public static final iny 
+  public static final class ClimbConstants {
+    public static final int kClimbMotorID = 17;
+
+    public static final boolean kClimbInverted = false;
+   
+  }
 
   public static final class OperatorConstants {
     public static final int kDriverControllerPort = 0;
