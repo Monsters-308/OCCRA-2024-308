@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,7 +13,8 @@ import frc.robot.Constants.IndexConstants;
 
 public class IndexSubsystem extends SubsystemBase {
   private final Spark indexMotor = new Spark(IndexConstants.kIndexMotorChannel);  
-
+  private final DigitalInput ballSensor = new DigitalInput(IndexConstants.kBallSensorPort);
+  
   /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
     indexMotor.setInverted(IndexConstants.kIndexInverted);
@@ -38,6 +40,11 @@ public class IndexSubsystem extends SubsystemBase {
    */
   public void stopIndex() {
     indexMotor.set(0);
+  }
+
+  
+  public boolean isBallDetected() {
+    return ballSensor.get();
   }
 
   @Override

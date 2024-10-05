@@ -9,7 +9,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class IndexCommand extends Command {
+public class IntakeCommand extends Command {
   
   private final IndexSubsystem m_subsystem;
 
@@ -18,8 +18,6 @@ public class IndexCommand extends Command {
    * This command does not finish on its own.
    * 
    * @param subsystem The drive subsystem.
-   * @param leftInput a supplier providing the values for the left joystick.
-   * @param rightInput a supplier providing the values for the right joystick.
    */
   public IndexCommand(IndexSubsystem subsystem) {
     m_subsystem = subsystem;
@@ -32,14 +30,21 @@ public class IndexCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
+  public void initialize() {
+    m_subsystem.setIndexSpeed(1);
+  }
+
+  @Override
   public void execute() {
-    
+    if (m_subsystem.isBallDetected()) {
+      
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.stopDrive();
+    m_subsystem.stopIndex();
   }
   
 } 
