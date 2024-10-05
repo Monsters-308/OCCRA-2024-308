@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.IndexConstants;
@@ -18,6 +18,7 @@ public class IndexSubsystem extends SubsystemBase {
   /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
     indexMotor.setInverted(IndexConstants.kIndexInverted);
+    Shuffleboard.getTab("Index").addBoolean("Is Ball Detected", this::isBallDetected);
   }
 
   /**
@@ -42,13 +43,7 @@ public class IndexSubsystem extends SubsystemBase {
     indexMotor.set(0);
   }
 
-  
   public boolean isBallDetected() {
     return ballSensor.get();
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

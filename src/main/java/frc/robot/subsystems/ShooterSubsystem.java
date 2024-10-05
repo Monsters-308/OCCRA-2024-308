@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.ShooterConstants;
@@ -52,6 +53,9 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
     bottomShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
     bottomShootMotor.burnFlash();
+
+    Shuffleboard.getTab("Shooter").addDouble("Top Motor Speed", topMotorEncoder::getVelocity);
+    Shuffleboard.getTab("Shooter").addDouble("Bottom Motor Speed", bottomMotorEncoder::getVelocity);
   } 
   
   public void startShooter(double topSpeed, double bottomSpeed) {
@@ -67,10 +71,5 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopShooter() {
     topShootMotor.set(0);
     bottomShootMotor.set(0);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

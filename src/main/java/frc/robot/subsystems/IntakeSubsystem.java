@@ -41,11 +41,4 @@ public class IntakeSubsystem extends SubsystemBase {
   public void stopIntake() {
     bobIntakeMotor.set(0);
   }
-
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run :3
-  }
-
 }
