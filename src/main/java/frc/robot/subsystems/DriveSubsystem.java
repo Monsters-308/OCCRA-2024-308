@@ -6,6 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import java.util.function.Consumer;
 
@@ -18,6 +21,22 @@ public class DriveSubsystem extends SubsystemBase {
   private final CANSparkMax rightFrontMotor = new CANSparkMax(DriveConstants.kRightFrontMotorCANID, MotorType.kBrushless);
   private final CANSparkMax rightBackMotor = new CANSparkMax(DriveConstants.kRightBackMotorCANID, MotorType.kBrushless);
 
+  // encoders
+  private final RelativeEncoder leftFrontEncoder = leftFrontMotor.getEncoder();
+  private final RelativeEncoder leftBackEncoder = leftBackMotor.getEncoder();
+  private final RelativeEncoder rightFrontEncoder = rightFrontMotor.getEncoder();
+  private final RelativeEncoder rightBackEncoder = rightBackMotor.getEncoder();
+
+  private final RelativeEncoder[] Encoders = new RelativeEncoder[]{leftFrontEncoder, leftBackEncoder, rightFrontEncoder, rightBackEncoder};
+
+  // PID controllers
+  private final SparkPIDController leftFrontPID = leftFrontMotor.getPIDController();
+  private final SparkPIDController leftBackPID = leftBackMotor.getPIDController();
+  private final SparkPIDController rightFrontPID = rightFrontMotor.getPIDController();
+  private final SparkPIDController rightBackPID = rightBackMotor.getPIDController();
+
+  private final SparkPIDController[] PIDControllers = new SparkPIDController[]{leftFrontPID, leftBackPID, rightFrontPID, rightBackPID};
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     
@@ -26,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
       motor.restoreFactoryDefaults();
       // "smart limit"
       motor.setSmartCurrentLimit(DriveConstants.kSmartCurrentLimit);
-      // coast gota go fast :3 (:3
+      // brake gota go slow 3:
       motor.setIdleMode(DriveConstants.kMotorIdleMode);
     });
    
@@ -35,6 +54,24 @@ public class DriveSubsystem extends SubsystemBase {
     rightFrontMotor.setInverted(DriveConstants.kRightFrontMotorInverted);
     leftBackMotor.setInverted(DriveConstants.kLeftBackMotorInverted);
     rightBackMotor.setInverted(DriveConstants.kRightBackMotorInverted);
+
+    // set encoder feedback
+    leftFrontPID.setFeedbackDevice(leftFrontEncoder);
+    leftBackPID.setFeedbackDevice(leftBackEncoder);
+    rightFrontPID.setFeedbackDevice(rightFrontEncoder);
+    rightBackPID.setFeedbackDevice(rightBackEncoder);
+
+    for (RelativeEncoder encoder : Encoders) {
+      encoder.setPositionConversionFactor(DriveConstants.kEncoderConversionFactor); // meters
+      encoder.setVelocityConversionFactor(DriveConstants.kEncoderConversionFactor / 60.0); // meters per second
+    }
+
+    for (SparkPIDController PIDController : PIDControllers) {
+      PIDController.setP(DriveConstants.kVelocityP);
+      PIDController.setI(DriveConstants.kVelocityI);
+      PIDController.setD(DriveConstants.kVelocityD);
+      PIDController.setFF(DriveConstants.kVelocityFF);
+    }
 
     applyAllMotors(motor -> motor.burnFlash());
   }
@@ -57,10 +94,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     // write speeds to motors
-    leftFrontMotor.set(leftSpeed);
-    leftBackMotor.set(leftSpeed);
-    rightFrontMotor.set(rightSpeed);
-    rightBackMotor.set(rightSpeed);
+    leftFrontPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * leftSpeed, ControlType.kVelocity);
+    leftBackPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * leftSpeed, ControlType.kVelocity);
+    rightFrontPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * rightSpeed, ControlType.kVelocity);
+    rightBackPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * rightSpeed, ControlType.kVelocity);
   }
 
   /**
@@ -68,6 +105,15 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void stopDrive() {
     applyAllMotors((motor) -> motor.set(0));
+  }
+
+  /**
+   * Sets the drive motors to a specified percentage.
+   * THIS IS FOR TESTING PURPOSES.
+   * @param speed The drivetrain speed from -1 to 1.
+   */
+  public void setPercent(double speed) {
+    applyAllMotors((motor) -> motor.set(speed));
   }
 
   /**

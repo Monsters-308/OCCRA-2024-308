@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -33,9 +35,27 @@ public final class Constants {
     public static final boolean kRightFrontMotorInverted = false;
     public static final boolean kRightBackMotorInverted = false;
 
+    // brake mode so the robot can't be pushed around
     public static final IdleMode kMotorIdleMode = IdleMode.kBrake;
 
     public static final int kSmartCurrentLimit = 30;
+
+    // calculate the max theoretical speed in m/s (for pid)
+    public static final double kWheelDiameter = Units.inchesToMeters(6);
+    public static final double kWheelCircumference = kWheelDiameter * Math.PI;
+    public static final double kGearRatio = 1;
+
+    public static final double kMaxSpeedMetersPerSecond = 
+      ((MotorConstants.kNeoMotorMaxRPM / 60.0) / kGearRatio) * kWheelCircumference;
+    
+    // PID constants for controlling wheel velocity
+    public static final double kVelocityP = 0.1;
+    public static final double kVelocityI = 0;
+    public static final double kVelocityD = 0;
+    public static final double kVelocityFF = 1 / kMaxSpeedMetersPerSecond;
+    
+    // converting motor rotations to distance traveled (for odometry)
+    public static final double kEncoderConversionFactor = kWheelCircumference / kGearRatio;
   }
 
   public static final class IntakeConstants {
