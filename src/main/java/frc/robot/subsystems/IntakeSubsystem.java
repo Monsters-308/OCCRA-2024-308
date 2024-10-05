@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -14,38 +13,33 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 
   // getting the motor of the index
-  private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorCANID, MotorType.kBrushless);
+  private final Spark bobIntakeMotor = new Spark(IntakeConstants.kIntakeMotorChannel);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(){
-      // sets the motor settings 
-      intakeMotor.restoreFactoryDefaults(); // <-- restores to default
-      intakeMotor.setSmartCurrentLimit(IntakeConstants.kSmartCurrentLimitIntake);// <- limit the power usage
-      intakeMotor.setIdleMode(IntakeConstants.kIntakeMotorIdleMode); // sets idle mode
-      intakeMotor.setInverted(IntakeConstants.kIntakeInverted);
-      intakeMotor.burnFlash();
+    bobIntakeMotor.setInverted(IntakeConstants.kIntakeInverted);
   }
 
   /**
    * Gets the current speed of the intake.
    */
-  public double getMotorSpeed() {
-    return intakeMotor.get();
+  public double getIntakeSpeed() {
+    return bobIntakeMotor.get();
   }
 
   /**
    * Starts the intake.
    * @param speed How fast the intake motor should spin. Goes from -1 to 1, with -1 being full reverse and 1 being full forwards.
    */
-  public void setMotorSpeed(double speed) {
-    intakeMotor.set(speed);
+  public void setIntakeSpeed(double speed) {
+    bobIntakeMotor.set(speed);
   }
 
   /**
    * Stops the intake. This should be done after the ball exits the indexer.
    */
-  public void stopMotor() {
-    intakeMotor.set(0);
+  public void stopIntake() {
+    bobIntakeMotor.set(0);
   }
 
 

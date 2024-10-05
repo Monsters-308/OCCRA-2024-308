@@ -59,24 +59,19 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    // ID for Intake
-    public static final int kIntakeMotorCANID = 17;
-    // idle mode
-    public static final IdleMode kIntakeMotorIdleMode = IdleMode.kBrake;
-    // "smartlimit"
-    public static final int kSmartCurrentLimitIntake = 30; // limits the power usage :3
+    // Channel for Intake
+    public static final int kIntakeMotorChannel = 17;
 
-    public static final boolean kIntakeInverted = false; // make intake invert (positive = intake, negative = outtake) 
+     // make intake invert (positive = intake, negative = outtake) 
+    public static final boolean kIntakeInverted = false;
   }
 
   public static final class IndexConstants {
-    public static final int kIndexMotorCANID = 17;
-
-    public static final IdleMode kIndexMotorIdleMode = IdleMode.kBrake;
-
-    public static final int kSmartCurrentLimitIntake = 30;
+    // Channel for Index
+    public static final int kIndexMotorChannel = 17;
     
-    public static final boolean kIndexInverted = false; // make intake invert (positive = intake, negative = outtake) 
+     // make index invert (positive = forwards, negative = backwards) 
+    public static final boolean kIndexInverted = false;
   }
 
   public static final class ShooterConstants {
@@ -103,7 +98,9 @@ public final class Constants {
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
   }
 
-  public static class OperatorConstants {
+  public static final iny 
+
+  public static final class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kCoDriverControllerPort = 1;
   }

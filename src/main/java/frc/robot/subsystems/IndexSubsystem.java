@@ -4,29 +4,24 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.IndexConstants;
 
 public class IndexSubsystem extends SubsystemBase {
-  private final CANSparkMax indexMotor = new CANSparkMax(IndexConstants.kIndexMotorCANID, MotorType.kBrushless);  
+  private final Spark indexMotor = new Spark(IndexConstants.kIndexMotorChannel);  
 
   /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
-    indexMotor.restoreFactoryDefaults();
-    indexMotor.setSmartCurrentLimit(IndexConstants.kSmartCurrentLimitIntake);
-    indexMotor.setIdleMode(IndexConstants.kIndexMotorIdleMode);
     indexMotor.setInverted(IndexConstants.kIndexInverted);
-    indexMotor.burnFlash();
   }
 
   /**
    * Gets the current speed of the indexer.
    */
-  public double getMotorSpeed() {
+  public double getIndexSpeed() {
     return indexMotor.get();
   }
 
@@ -34,14 +29,14 @@ public class IndexSubsystem extends SubsystemBase {
    * Starts the index.
    * @param speed How fast the index motor should spin. Goes from -1 to 1, with -1 being full reverse and 1 being full forwards.
    */
-  public void setMotorSpeed(double speed) {
+  public void setIndexSpeed(double speed) {
     indexMotor.set(speed);
   }
 
   /**
    * Stops the indexer. This should be done after the ball exits the indexer.
    */
-  public void stopMotor() {
+  public void stopIndex() {
     indexMotor.set(0);
   }
 
