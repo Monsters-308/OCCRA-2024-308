@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -30,29 +31,34 @@ public class ShooterSubsystem extends SubsystemBase {
     topMotorPIDController.setI(ShooterConstants.kVelocityI);
     topMotorPIDController.setD(ShooterConstants.kVelocityD);
     topMotorPIDController.setFF(ShooterConstants.kVelocityFF);
-
     topMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
     topMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
-
     topShootMotor.restoreFactoryDefaults();
     topShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
     topShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
     topShootMotor.burnFlash();
-
     bottomMotorPIDController.setP(ShooterConstants.kVelocityP);
     bottomMotorPIDController.setI(ShooterConstants.kVelocityI);
     bottomMotorPIDController.setD(ShooterConstants.kVelocityD);
     bottomMotorPIDController.setFF(ShooterConstants.kVelocityFF);
-
     bottomMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
     bottomMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
-
     bottomShootMotor.restoreFactoryDefaults();
     bottomShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
     bottomShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
     bottomShootMotor.burnFlash();
-  }
+  } 
   
+  public void startShooter(double topSpeed, double bottomSpeed) {
+    topMotorPIDController.setReference(topSpeed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
+    bottomMotorPIDController.setReference(bottomSpeed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
+  }
+
+  public void stopShooter() {
+    topShootMotor.set(0);
+    bottomShootMotor.set(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
