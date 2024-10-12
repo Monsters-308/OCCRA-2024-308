@@ -131,7 +131,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveTab.addDouble("Right Speed", this::getRightVelocity);
     driveTab.addDouble("Rotational Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
     driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
-    driveTab.add("Max Rotation", Units.radiansToDegrees(DriveConstants.kMaxAngularSpeed));
+    driveTab.add("Max Rotation", DriveConstants.kMaxAngularSpeed);
 
     /* Pathplanner Configuration */
 
@@ -152,9 +152,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @param turningSpeed How fast it turns. -1 is full left; 1 is full right.
    */
   public void drive(double forwardSpeed, double turningSpeed) {
-    // dead band
-    forwardSpeed = sensitivityFunction(forwardSpeed, DriveConstants.driverSensitvity, DriveConstants.deadBand);
-    turningSpeed = sensitivityFunction(turningSpeed, DriveConstants.driverSensitvity, DriveConstants.deadBand);
     // calculate speeds
     double leftSpeed = forwardSpeed + turningSpeed;
     double rightSpeed = forwardSpeed - turningSpeed;
@@ -171,10 +168,6 @@ public class DriveSubsystem extends SubsystemBase {
     leftBackPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * leftSpeed, ControlType.kVelocity);
     rightFrontPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * rightSpeed, ControlType.kVelocity);
     rightBackPID.setReference(DriveConstants.kMaxSpeedMetersPerSecond * rightSpeed, ControlType.kVelocity);
-  }
-
-  private double sensitivityFunction(double speed, double sensitivity, double deadBand) {
-    return Math.signum(speed) * Math.pow(Math.abs((speed-deadBand)/(1-deadBand)), 0.5/sensitivity);
   }
 
   /**

@@ -77,11 +77,15 @@ public final class Constants {
 
     // Dead band of joysticks. If the joystick is this distance from the center, the speed will register as zero. This prevents stick drift.
     // Edit this to control how much you have to move the stick in order for it to register as an input. It is a decimal that goes from 0-1.
-    public static final double deadBand = 0.05;
+    public static final double kDeadBand = 0.05;
 
     // Controls the sensitivity of the joysticks.
     // These will be edited by the driver for prefrence
-    public static final double driverSensitvity = 0.5;
+    public static final double kDriverSensitvity = 0.5;
+
+    // Limits the rate of change of the driver speed and rotation, respectively.
+    public static final double kSpeedSlewRateLimit = 1.0; // Units per second
+    public static final double kRotationalSlewRateLimit = 2.0; // Units per second
   }
   
 

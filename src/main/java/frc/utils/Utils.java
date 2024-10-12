@@ -19,4 +19,13 @@ public class Utils {
         );
     }
     
+    /**
+     * Controls the sensitivity of the joystick inputs.
+     * @param rawSpeed The raw speed
+     * @param sensitivity The senstivity of the joystick. Goes from 0-1 with 0.5 being linear.
+     * @param deadband The deadband of the joystick to prevent stick drift. Any value lower than this, or above for negatives, will be made zero.
+     */
+    public static double sensitivityFunction(double rawSpeed, double sensitivity, double deadband) {
+        return Math.signum(rawSpeed) * Math.pow(Math.max(0, (Math.abs(rawSpeed)-deadband)/(1-deadband)), 0.5/sensitivity);
+    }
 }
