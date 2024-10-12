@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -24,14 +26,14 @@ public final class Constants {
 
   public static final class DriveConstants {
     // ID for the motors.
-    public static final int kLeftFrontMotorCANID = 17;
-    public static final int kLeftBackMotorCANID = 17;
-    public static final int kRightFrontMotorCANID = 17;
-    public static final int kRightBackMotorCANID = 17;
+    public static final int kLeftFrontMotorCANID = 5;
+    public static final int kLeftBackMotorCANID = 4;
+    public static final int kRightFrontMotorCANID = 3;
+    public static final int kRightBackMotorCANID = 2;
 
     // config the inverted for each of the motors.
-    public static final boolean kLeftFrontMotorInverted = false;
-    public static final boolean kLeftBackMotorInverted = false;
+    public static final boolean kLeftFrontMotorInverted = true;
+    public static final boolean kLeftBackMotorInverted = true;
     public static final boolean kRightFrontMotorInverted = false;
     public static final boolean kRightBackMotorInverted = false;
 
@@ -43,20 +45,45 @@ public final class Constants {
     // calculate the max theoretical speed in m/s (for pid)
     public static final double kWheelDiameter = Units.inchesToMeters(6);
     public static final double kWheelCircumference = kWheelDiameter * Math.PI;
-    public static final double kGearRatio = 1;
+    public static final double kGearRatio = 8.45;
 
     public static final double kMaxSpeedMetersPerSecond = 
       ((MotorConstants.kNeoMotorMaxRPM / 60.0) / kGearRatio) * kWheelCircumference;
     
     // PID constants for controlling wheel velocity
-    public static final double kVelocityP = 0.1;
+    public static final double kVelocityP = 0.01;
     public static final double kVelocityI = 0;
     public static final double kVelocityD = 0;
     public static final double kVelocityFF = 1 / kMaxSpeedMetersPerSecond;
     
     // converting motor rotations to distance traveled (for odometry)
     public static final double kEncoderConversionFactor = kWheelCircumference / kGearRatio;
+
+    // kinematics
+
+    // Track width: this is the distance between the wheels
+    public static final double kTrackWidthMeters = Units.inchesToMeters(26);
+    // This may be larger due to scrubbing effects
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters); 
+
+    // the theoretical max rotational speed of the robot (in radians per second)
+    public static final double kMaxAngularSpeed = kDriveKinematics.toChassisSpeeds(
+      new DifferentialDriveWheelSpeeds(-kMaxSpeedMetersPerSecond, kMaxSpeedMetersPerSecond)
+    ).omegaRadiansPerSecond;
+
+    // Determines which direction is positive for the gyro
+    // Pathplanner uses CCW positive
+    public static final boolean kInvertGyro = true;
+
+    // Dead band of joysticks. If the joystick is this distance from the center, the speed will register as zero. This prevents stick drift.
+    // Edit this to control how much you have to move the stick in order for it to register as an input. It is a decimal that goes from 0-1.
+    public static final double deadBand = 0.05;
+
+    // Controls the sensitivity of the joysticks.
+    // These will be edited by the driver for prefrence
+    public static final double driverSensitvity = 0.5;
   }
+  
 
   public static final class IntakeConstants {
     // Channel for Intake
@@ -91,14 +118,14 @@ public final class Constants {
     public static final double kMaxMetersPerSecond = ((MotorConstants.kNeoMotorMaxRPM / 60) * kWheelCircumference) / kGearRatio;
 
     public static final double kVelocityP = 1;
-    public static final double kVelocityI = 1;
-    public static final double kVelocityD = 1;
+    public static final double kVelocityI = 0;
+    public static final double kVelocityD = 0;
     public static final double kVelocityFF = 1 / kMaxMetersPerSecond;
     
     public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
 
-    public static final double backSpin = 0;
+    public static final double kBackSpin = 0;
   }
 
   public static final class ClimbConstants {
