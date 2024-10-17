@@ -5,22 +5,29 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.AutonomousConstants;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LaunchBallCommand;
-import frc.robot.commands.ReverseIntakeCommand;
+// import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RevUpShooterCommand;
-
-import frc.robot.subsystems.ClimbSubsystem;
+// import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+// import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+// import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -35,17 +42,24 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexSubsystem m_indexSubsystem = new IndexSubsystem();
-  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
-  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  // private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  // private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // Controllers
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  // private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  private final SendableChooser<Command> m_autonChooser = AutoBuilder.buildAutoChooser();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the controller bindings
     configureBindings();
+
+    // Register commands to pathplanner
+    registerCommands();
+
+    Shuffleboard.getTab("Auton").add("Auton Selector", m_autonChooser);
   }
 
   /** 
@@ -58,23 +72,34 @@ public class RobotContainer {
       new DriveCommand(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightX)
     );
 
-    // Configures intake to start when the b button is held on the Co-Driver Controller
-    m_coDriverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+    // // Configures intake to start when the b button is held on the Co-Driver Controller
+    // m_coDriverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
 
-    // Configures the intake to reverse when the x button is held on the Co-Driver Controller
-    m_coDriverController.x().whileTrue(new ReverseIntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+    // // Configures the intake to reverse when the x button is held on the Co-Driver Controller
+    // m_coDriverController.x().whileTrue(new ReverseIntakeCommand(m_intakeSubsystem, m_indexSubsystem));
 
-    // Configures the shooter to rev up when the left trigger is held on the Co-Driver Controller.
-    // The speed is controled by the analog input of the trigger.
-    m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
+    // // Configures the shooter to rev up when the left trigger is held on the Co-Driver Controller.
+    // // The speed is controled by the analog input of the trigger.
+    // m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
 
-    // Configures the ball to launch when the right trigger is pressed.
-    m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
+    // // Configures the ball to launch when the right trigger is pressed.
+    // m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
 
 
-    // D-PADSTUFF :3
+    // D-PADSTUFF :3 D pad is POV
+
 
     
+  }
+
+  /**
+   * This method registers autonomous commands so that they can be used in pathplanner.
+   * This is handled in a separate function to keep things organized.
+   */
+  private void registerCommands() {
+    NamedCommands.registerCommand("Rev Up Shooter", new RevUpShooterCommand(m_shooterSubsystem, AutonomousConstants.kShooterSpeed));
+    NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));
+    NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
   }
 
   /**
@@ -83,7 +108,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return new InstantCommand();
+    // Run the command currently selected on shuffleboard
+    return m_autonChooser.getSelected();
   }
 }

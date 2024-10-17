@@ -15,7 +15,10 @@ public class IndexSubsystem extends SubsystemBase {
   private final Spark indexMotor = new Spark(IndexConstants.kIndexMotorChannel);  
   private final DigitalInput ballSensor = new DigitalInput(IndexConstants.kBallSensorPort);
   
-  /** Creates a new IndexSubsystem. */
+  /**
+   * Creates a new index subsystem.
+   * It controls the mechanism that holds the ball in the robot before it gets shot.   
+   **/
   public IndexSubsystem() {
     indexMotor.setInverted(IndexConstants.kIndexInverted);
     Shuffleboard.getTab("Index").addBoolean("Is Ball Detected", this::isBallDetected);
@@ -37,12 +40,14 @@ public class IndexSubsystem extends SubsystemBase {
   }
 
   /**
-   * Stops the indexer. This should be done after the ball exits the indexer.
+   * Stops the indexer. This should be done after the ball is completly in the indexer.
    */
   public void stopIndex() {
     indexMotor.set(0);
   }
-
+  /**
+   * Detects whether the ball is over the sensor. True means it is in the sensor, and false means it is not.
+   * */
   public boolean isBallDetected() {
     return ballSensor.get();
   }

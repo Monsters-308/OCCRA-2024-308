@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class LaunchBallCommand extends Command {
   private final IndexSubsystem m_indexSubsystem;
 
+  /**
+   * This creates a new launch ball command. This command shoots the ball.
+   * @param indexSubsystem the indexer that needs to be started in order for the ball to be pushed into the shooter
+   */
   public LaunchBallCommand(IndexSubsystem indexSubsystem) {
     m_indexSubsystem = indexSubsystem;
   }

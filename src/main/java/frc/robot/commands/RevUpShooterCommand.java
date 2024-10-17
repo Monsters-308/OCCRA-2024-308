@@ -14,9 +14,24 @@ public class RevUpShooterCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final DoubleSupplier getShooterSpeed;
 
+  /**
+   * This creates a new rev up shooter command. This revs up the shooter to the correct speed before the ball gets fed into the shooter.
+   * @param shooterSubsystem the shooter subsystem that controls the wheels in the shooter
+   * @param shooterSpeed a functional interface the had a method get that returns a double that represents the value for the speed of the shooter
+   */
   public RevUpShooterCommand(ShooterSubsystem shooterSubsystem, DoubleSupplier shooterSpeed) {
     m_shooterSubsystem = shooterSubsystem;
     getShooterSpeed = shooterSpeed;
+  }
+
+  /**
+   * This creates a new rev up shooter command. This revs up the shooter to the correct speed before the ball gets fed into the shooter.
+   * @param shooterSubsystem the shooter subsystem that controls the wheels in the shooter
+   * @param shooterSpeed a double that represents the value for the speed of the shooter
+   */
+  public RevUpShooterCommand(ShooterSubsystem shooterSubsystem, Double shooterSpeed) {
+    m_shooterSubsystem = shooterSubsystem;
+    getShooterSpeed = () -> shooterSpeed;
   }
 
   @Override

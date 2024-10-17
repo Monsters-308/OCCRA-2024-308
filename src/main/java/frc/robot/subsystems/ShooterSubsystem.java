@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final RelativeEncoder topMotorEncoder = topShootMotor.getEncoder();
   private final RelativeEncoder bottomMotorEncoder = bottomShootMotor.getEncoder();
 
-  /** Creates a new ShooterSubsystem. */
+  /** This creates a new shooter subsystem, which manages the speed of the shooter wheels, so the ball can move out at the correct speed. */
   public ShooterSubsystem() {
     topMotorPIDController.setP(ShooterConstants.kVelocityP);
     topMotorPIDController.setI(ShooterConstants.kVelocityI);
@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     topShootMotor.restoreFactoryDefaults();
     topShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
-    topShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
+    topShootMotor.setInverted(ShooterConstants.kTopShooterMotorInverted);
     topShootMotor.burnFlash();
 
     bottomMotorPIDController.setP(ShooterConstants.kVelocityP);
@@ -51,23 +51,31 @@ public class ShooterSubsystem extends SubsystemBase {
     
     bottomShootMotor.restoreFactoryDefaults();
     bottomShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
-    bottomShootMotor.setInverted(ShooterConstants.kShooterMotorInverted);
+    bottomShootMotor.setInverted(ShooterConstants.kBottomShooterMotorInverted);
     bottomShootMotor.burnFlash();
 
     Shuffleboard.getTab("Shooter").addDouble("Top Motor Speed", topMotorEncoder::getVelocity);
     Shuffleboard.getTab("Shooter").addDouble("Bottom Motor Speed", bottomMotorEncoder::getVelocity);
   } 
   
+  /** Starts the shooter with a specified top and bottom speed, in order to achieve backspin
+   * @param topSpeed the speed you want the top shooter wheel to move at (-1 - 1)
+   * @param bottomSpeed the speed you want the bottom shooter wheel to move at (-1 - 1)
+   * **/
   public void startShooter(double topSpeed, double bottomSpeed) {
     topMotorPIDController.setReference(topSpeed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
     bottomMotorPIDController.setReference(bottomSpeed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
   }
-
+  
+  /** Starts the shooter with the same speed for the top and bottom
+   * @param speed the speed you want the shooter wheels to move at (-1 - 1)
+   */
   public void startShooter(double speed) {
     topMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
     bottomMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
   }
-
+  
+  /** Stops the motor and sets them both to 0 */
   public void stopShooter() {
     topShootMotor.set(0);
     bottomShootMotor.set(0);

@@ -91,7 +91,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     // Channel for Intake
-    public static final int kIntakeMotorChannel = 17;
+    public static final int kIntakeMotorChannel = 11;
 
      // make intake invert (positive = intake, negative = outtake) 
     public static final boolean kIntakeInverted = false;
@@ -99,7 +99,7 @@ public final class Constants {
 
   public static final class IndexConstants {
     // Channel for Index
-    public static final int kIndexMotorChannel = 17;
+    public static final int kIndexMotorChannel = 18;
     public static final int kBallSensorPort = 1;
     
      // make index invert (positive = forwards, negative = backwards) 
@@ -107,14 +107,15 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterTopMotorCANID = 17;
-    public static final int kShooterBottomMotorCANID = 17;
+    public static final int kShooterTopMotorCANID = 19;
+    public static final int kShooterBottomMotorCANID = 16;
 
     public static final IdleMode kShooterMotorIdleMode = IdleMode.kBrake;
 
     public static final int kSmartCurrentLimit = 30;
 
-    public static final boolean kShooterMotorInverted = false; // make intake invert (positive = intake, negative = outtake)
+    public static final boolean kTopShooterMotorInverted = false; // makes top shooter wheel invert (false = forwards, true = backwards)
+    public static final boolean kBottomShooterMotorInverted = false; // makes bottom shooter wheel invert (false = forawards, true = backwards)
 
     public static final double kWheelDiamter = 6;
     public static final double kWheelCircumference = Math.PI * kWheelDiamter;
@@ -133,7 +134,7 @@ public final class Constants {
   }
 
   public static final class ClimbConstants {
-    public static final int kClimbMotorID = 17;
+    public static final int kClimbMotorID = 8;
 
     public static final boolean kClimbInverted = false;
    
@@ -142,5 +143,11 @@ public final class Constants {
   public static final class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kCoDriverControllerPort = 1;
+  }
+
+  public static final class AutonomousConstants{
+    public static final double kBallLaunchTimeout = 10;
+
+    public static final double kShooterSpeed = 0.5;
   }
 }

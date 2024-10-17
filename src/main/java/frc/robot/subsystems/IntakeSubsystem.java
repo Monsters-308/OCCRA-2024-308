@@ -12,10 +12,11 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // getting the motor of the index
   private final Spark bobIntakeMotor = new Spark(IntakeConstants.kIntakeMotorChannel);
 
-  /** Creates a new IntakeSubsystem. */
+  /**
+   * Creates a new IntakeSubsystem. which manages is what intakes the ball from the human players, or outtakes a ball or other object that should not be there.
+   **/
   public IntakeSubsystem(){
     bobIntakeMotor.setInverted(IntakeConstants.kIntakeInverted);
   }
@@ -36,7 +37,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * Stops the intake. This should be done after the ball exits the indexer.
+   * Stops the intake. This should be done after the ball exits the intake.
    */
   public void stopIntake() {
     bobIntakeMotor.set(0);
