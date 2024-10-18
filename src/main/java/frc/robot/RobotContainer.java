@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.AutonomousConstants;
+import frc.robot.Constants.LEDConstants;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
@@ -22,13 +23,19 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.IntegerPublisher;
+import edu.wpi.first.networktables.NetworkTable;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,12 +54,19 @@ public class RobotContainer {
 
   // Controllers
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  // private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final SendableChooser<Command> m_autonChooser = AutoBuilder.buildAutoChooser();
 
+  private IntegerPublisher m_LEDIndexPublisher;
+  private int m_LEDIndex;
+  private int m_previousLEDIndex = 1;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Configure network tables to communicate with LEDs
+    configureNetworkTables();
+
     // Configure the controller bindings
     configureBindings();
 
@@ -85,11 +99,33 @@ public class RobotContainer {
     // // Configures the ball to launch when the right trigger is pressed.
     // m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
 
+    m_coDriverController.povUp().onTrue(new InstantCommand(() -> {
+      m_previousLEDIndex = m_LEDIndex;
+      m_LEDIndex = 0;
+      m_LEDIndexPublisher.set(m_LEDIndex);
+    }));
 
-    // D-PADSTUFF :3 D pad is POV
+    m_coDriverController.povLeft().onTrue(new InstantCommand(() -> {
+      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
+      m_LEDIndex = m_LEDIndex <= 1 ? LEDConstants.maxLEDIndex : m_LEDIndex - 1;
+    }));
 
+    m_coDriverController.povRight().onTrue(new InstantCommand(() -> {
+      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
+      m_LEDIndex = m_LEDIndex >= LEDConstants.maxLEDIndex ? 1 : m_LEDIndex + 1;
+    }));
 
-    
+    m_coDriverController.povDown().onTrue(new InstantCommand(() -> {
+      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
+      m_LEDIndexPublisher.set(m_LEDIndex);
+    }));
+  }
+
+  private void configureNetworkTables() {
+    NetworkTableInstance networkInstance = NetworkTableInstance.getDefault();
+    NetworkTable table = networkInstance.getTable("LED Data");
+
+    m_LEDIndexPublisher = table.getIntegerTopic("LED Image Index").publish();
   }
 
   /**

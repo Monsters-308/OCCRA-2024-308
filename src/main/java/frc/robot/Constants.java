@@ -150,4 +150,8 @@ public final class Constants {
 
     public static final double kShooterSpeed = 0.5;
   }
+
+  public static final class LEDConstants {
+    public static final int maxLEDIndex = 5;
+  }
 }
