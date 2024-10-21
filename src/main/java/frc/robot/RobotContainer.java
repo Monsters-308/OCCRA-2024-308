@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.NetworkTable;
 
@@ -59,6 +60,7 @@ public class RobotContainer {
   private final SendableChooser<Command> m_autonChooser = AutoBuilder.buildAutoChooser();
 
   private IntegerPublisher m_LEDIndexPublisher;
+  private DoublePublisher m_LEDAnimationProgressPublisher;
   private int m_LEDIndex;
   private int m_previousLEDIndex = 1;
 
@@ -123,9 +125,10 @@ public class RobotContainer {
 
   private void configureNetworkTables() {
     NetworkTableInstance networkInstance = NetworkTableInstance.getDefault();
-    NetworkTable table = networkInstance.getTable("LED Data");
+    NetworkTable table = networkInstance.getTable(LEDConstants.LEDTableName);
 
-    m_LEDIndexPublisher = table.getIntegerTopic("LED Image Index").publish();
+    m_LEDIndexPublisher = table.getIntegerTopic(LEDConstants.LEDIndexName).publish();
+    m_LEDAnimationProgressPublisher = table.getDoubleTopic(LEDConstants.LEDAnimationProgressName).publish();
   }
 
   /**
