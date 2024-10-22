@@ -175,10 +175,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param speeds The desired translational and rotation speeds.
    */
   public void drive(ChassisSpeeds speeds) {
-    drive(
-      speeds.vxMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond, 
-      speeds.omegaRadiansPerSecond / DriveConstants.kMaxAngularSpeed
-    );
+    DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);
+
+    // write speeds to motors
+    leftFrontPID.setReference(wheelSpeeds.leftMetersPerSecond, ControlType.kVelocity);
+    leftBackPID.setReference(wheelSpeeds.leftMetersPerSecond, ControlType.kVelocity);
+    rightFrontPID.setReference(wheelSpeeds.rightMetersPerSecond, ControlType.kVelocity);
+    rightBackPID.setReference(wheelSpeeds.rightMetersPerSecond, ControlType.kVelocity);
   }
 
   /**
