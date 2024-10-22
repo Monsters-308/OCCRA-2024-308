@@ -26,10 +26,10 @@ public final class Constants {
 
   public static final class DriveConstants {
     // ID for the motors.
-    public static final int kLeftFrontMotorCANID = 5;
-    public static final int kLeftBackMotorCANID = 4;
-    public static final int kRightFrontMotorCANID = 3;
-    public static final int kRightBackMotorCANID = 2;
+    public static final int kLeftFrontMotorCANID = 2;
+    public static final int kLeftBackMotorCANID = 3;
+    public static final int kRightFrontMotorCANID = 4;
+    public static final int kRightBackMotorCANID = 5;
 
     // config the inverted for each of the motors.
     public static final boolean kLeftFrontMotorInverted = true;
