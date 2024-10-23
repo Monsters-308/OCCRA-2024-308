@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -12,13 +12,14 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private final Spark bobIntakeMotor = new Spark(IntakeConstants.kIntakeMotorChannel);
+  private final TalonFX bobIntakeMotor = new TalonFX(IntakeConstants.kIntakeMotorChannel);
 
   /**
    * Creates a new IntakeSubsystem. which manages is what intakes the ball from the human players, or outtakes a ball or other object that should not be there.
    **/
   public IntakeSubsystem(){
     bobIntakeMotor.setInverted(IntakeConstants.kIntakeInverted);
+    bobIntakeMotor.setNeutralMode(IntakeConstants.kMotorIdleMode);
   }
 
   /**

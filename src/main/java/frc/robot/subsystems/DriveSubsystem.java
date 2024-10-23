@@ -123,6 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
     // Field widget for displaying odometry estimation
     driveTab.add("Field", m_field)
       .withSize(6, 3);
+    
+    driveTab.addDouble("X pos", () -> getPose().getX());
+    driveTab.addDouble("Y pos", () -> getPose().getY());
 
     // For testing purposes
     driveTab.addDouble("Encoder error", () -> leftFrontEncoder.getPosition() - leftBackEncoder.getPosition());

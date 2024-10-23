@@ -5,14 +5,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants.IndexConstants;
 
 public class IndexSubsystem extends SubsystemBase {
-  private final Spark indexMotor = new Spark(IndexConstants.kIndexMotorChannel);  
+  private final TalonFX indexMotor = new TalonFX(IndexConstants.kIndexMotorChannel);  
   private final DigitalInput ballSensor = new DigitalInput(IndexConstants.kBallSensorPort);
   
   /**
@@ -21,6 +21,8 @@ public class IndexSubsystem extends SubsystemBase {
    **/
   public IndexSubsystem() {
     indexMotor.setInverted(IndexConstants.kIndexInverted);
+    indexMotor.setNeutralMode(IndexConstants.kMotorIdleMode);
+
     Shuffleboard.getTab("Index").addBoolean("Is Ball Detected", this::isBallDetected);
   }
 
@@ -45,10 +47,11 @@ public class IndexSubsystem extends SubsystemBase {
   public void stopIndex() {
     indexMotor.set(0);
   }
+  
   /**
    * Detects whether the ball is over the sensor. True means it is in the sensor, and false means it is not.
    * */
   public boolean isBallDetected() {
-    return ballSensor.get();
+    return !ballSensor.get();
   }
 }

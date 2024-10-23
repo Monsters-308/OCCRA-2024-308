@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -84,10 +85,9 @@ public final class Constants {
     public static final double kDriverSensitvity = 0.5;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 1.0; // Units per second
-    public static final double kRotationalSlewRateLimit = 2.0; // Units per second
+    public static final double kSpeedSlewRateLimit = 5.0; // Units per second
+    public static final double kRotationalSlewRateLimit = 5.0; // Units per second
   }
-  
 
   public static final class IntakeConstants {
     // Channel for Intake
@@ -95,29 +95,31 @@ public final class Constants {
 
      // make intake invert (positive = intake, negative = outtake) 
     public static final boolean kIntakeInverted = false;
+    public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
   }
 
   public static final class IndexConstants {
     // Channel for Index
     public static final int kIndexMotorChannel = 18;
-    public static final int kBallSensorPort = 1;
+    public static final int kBallSensorPort = 0;
     
      // make index invert (positive = forwards, negative = backwards) 
     public static final boolean kIndexInverted = false;
+    public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Brake;
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterTopMotorCANID = 19;
-    public static final int kShooterBottomMotorCANID = 16;
+    public static final int kShooterTopMotorCANID = 25;
+    public static final int kShooterBottomMotorCANID = 30;
 
-    public static final IdleMode kShooterMotorIdleMode = IdleMode.kBrake;
+    public static final IdleMode kShooterMotorIdleMode = IdleMode.kCoast;
 
     public static final int kSmartCurrentLimit = 30;
 
-    public static final boolean kTopShooterMotorInverted = false; // makes top shooter wheel invert (false = forwards, true = backwards)
-    public static final boolean kBottomShooterMotorInverted = false; // makes bottom shooter wheel invert (false = forawards, true = backwards)
+    public static final boolean kTopShooterMotorInverted = false; // makes top shooter wheel invert (positive = outwards, negative = inwards)
+    public static final boolean kBottomShooterMotorInverted = false; // makes bottom shooter wheel invert (positive = outwards, negative = inwards)
 
-    public static final double kWheelDiamter = 6;
+    public static final double kWheelDiamter = Units.inchesToMeters(6);
     public static final double kWheelCircumference = Math.PI * kWheelDiamter;
     public static final double kGearRatio = 1;
     public static final double kMaxMetersPerSecond = ((MotorConstants.kNeoMotorMaxRPM / 60) * kWheelCircumference) / kGearRatio;
@@ -146,7 +148,7 @@ public final class Constants {
   }
 
   public static final class AutonomousConstants{
-    public static final double kBallLaunchTimeout = 10;
+    public static final double kBallLaunchTimeout = 1;
 
     public static final double kShooterSpeed = 0.5;
   }
