@@ -91,7 +91,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     // Channel for Intake
-    public static final int kIntakeMotorChannel = 11;
+    public static final int kIntakeMotorChannel = 8;
 
      // make intake invert (positive = intake, negative = outtake) 
     public static final boolean kIntakeInverted = false;
@@ -100,7 +100,7 @@ public final class Constants {
 
   public static final class IndexConstants {
     // Channel for Index
-    public static final int kIndexMotorChannel = 18;
+    public static final int kIndexMotorChannel = 9;
     public static final int kBallSensorPort = 0;
     
      // make index invert (positive = forwards, negative = backwards) 
@@ -119,9 +119,9 @@ public final class Constants {
     public static final boolean kTopShooterMotorInverted = false; // makes top shooter wheel invert (positive = outwards, negative = inwards)
     public static final boolean kBottomShooterMotorInverted = false; // makes bottom shooter wheel invert (positive = outwards, negative = inwards)
 
-    public static final double kWheelDiamter = Units.inchesToMeters(6);
+    public static final double kWheelDiamter = Units.inchesToMeters(4);
     public static final double kWheelCircumference = Math.PI * kWheelDiamter;
-    public static final double kGearRatio = 1;
+    public static final double kGearRatio = 1.6;
     public static final double kMaxMetersPerSecond = ((MotorConstants.kNeoMotorMaxRPM / 60) * kWheelCircumference) / kGearRatio;
 
     public static final double kVelocityP = 1;

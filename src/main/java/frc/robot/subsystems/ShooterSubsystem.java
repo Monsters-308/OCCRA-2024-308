@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.ShooterConstants;
+import frc.utils.SparkSendablePID;
 
 public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax topShootMotor = new CANSparkMax(ShooterConstants.kShooterTopMotorCANID, MotorType.kBrushless);
@@ -56,6 +57,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     Shuffleboard.getTab("Shooter").addDouble("Top Motor Speed", topMotorEncoder::getVelocity);
     Shuffleboard.getTab("Shooter").addDouble("Bottom Motor Speed", bottomMotorEncoder::getVelocity);
+
+    Shuffleboard.getTab("Shooter").add("Shooter PID controller", new SparkSendablePID(topMotorPIDController, ControlType.kVelocity));
   } 
   
   /** Starts the shooter with a specified top and bottom speed, in order to achieve backspin
