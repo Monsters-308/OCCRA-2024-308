@@ -11,9 +11,9 @@ import frc.robot.Constants.LEDConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LaunchBallCommand;
-// import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RevUpShooterCommand;
-// import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -49,7 +50,7 @@ public class RobotContainer {
 
   // Controllers
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kCoDriverControllerPort);
 
   private final SendableChooser<Command> m_autonChooser = AutoBuilder.buildAutoChooser();
 
@@ -81,18 +82,21 @@ public class RobotContainer {
       new DriveCommand(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightX)
     );
 
-    // // Configures intake to start when the b button is held on the Co-Driver Controller
-    // m_coDriverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+    // Configures intake to start when the b button is held on the Co-Driver Controller
+    m_coDriverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
 
-    // // Configures the intake to reverse when the x button is held on the Co-Driver Controller
-    // m_coDriverController.x().whileTrue(new ReverseIntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+    // Configures the intake to reverse when the x button is held on the Co-Driver Controller
+    m_coDriverController.x().whileTrue(new ReverseIntakeCommand(m_intakeSubsystem, m_indexSubsystem));
 
-    // // Configures the shooter to rev up when the left trigger is held on the Co-Driver Controller.
-    // // The speed is controled by the analog input of the trigger.
-    // m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
+    // Configures the shooter to rev up when the left trigger is held on the Co-Driver Controller.
+    // The speed is controled by the analog input of the trigger.
+    //m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
+    m_coDriverController.leftTrigger(0.1)
+      .onTrue(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem))
+      .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem));
 
-    // // Configures the ball to launch when the right trigger is pressed.
-    // m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
+    // Configures the ball to launch when the right trigger is pressed.
+    m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
 
     m_coDriverController.povUp().onTrue(new InstantCommand(() -> {
       m_previousLEDIndex = m_LEDIndex;
@@ -128,7 +132,9 @@ public class RobotContainer {
    * This is handled in a separate function to keep things organized.
    */
   private void registerCommands() {
-    NamedCommands.registerCommand("Rev Up Shooter", new RevUpShooterCommand(m_shooterSubsystem, AutonomousConstants.kShooterSpeed));
+    NamedCommands.registerCommand("Rev Up Shooter", new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem)
+      .finallyDo(() -> m_shooterSubsystem.stopShooter())
+    );
     NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));
     NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
   }

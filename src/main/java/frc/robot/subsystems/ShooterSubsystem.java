@@ -12,6 +12,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.ShooterConstants;
@@ -58,6 +60,9 @@ public class ShooterSubsystem extends SubsystemBase {
     Shuffleboard.getTab("Shooter").addDouble("Top Motor Speed", topMotorEncoder::getVelocity);
     Shuffleboard.getTab("Shooter").addDouble("Bottom Motor Speed", bottomMotorEncoder::getVelocity);
 
+    Shuffleboard.getTab("Shooter").add("I AM SPEED", 
+      new RepeatCommand(new InstantCommand(() -> setPercent(1, 1), this)).finallyDo(() -> stopShooter()));
+
     Shuffleboard.getTab("Shooter").add("Shooter PID controller", new SparkSendablePID(topMotorPIDController, ControlType.kVelocity));
   } 
   
@@ -76,6 +81,12 @@ public class ShooterSubsystem extends SubsystemBase {
   public void startShooter(double speed) {
     topMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
     bottomMotorPIDController.setReference(speed * ShooterConstants.kMaxMetersPerSecond, ControlType.kVelocity);
+  }
+
+  /** Sets the motors to a specific percentage. This is for testing purposes. */
+  public void setPercent(double topSpeed, double bottomSpeed) {
+    topShootMotor.set(topSpeed);
+    bottomShootMotor.set(bottomSpeed);
   }
   
   /** Stops the motor and sets them both to 0 */

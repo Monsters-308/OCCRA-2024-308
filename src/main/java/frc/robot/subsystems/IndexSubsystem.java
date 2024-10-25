@@ -7,12 +7,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.hardware.TalonFX;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 
 import frc.robot.Constants.IndexConstants;
 
 public class IndexSubsystem extends SubsystemBase {
-  private final TalonFX indexMotor = new TalonFX(IndexConstants.kIndexMotorChannel);  
+  private final BaseTalon indexMotor = new BaseTalon(IndexConstants.kIndexMotorChannel, "SRX");  
   private final DigitalInput ballSensor = new DigitalInput(IndexConstants.kBallSensorPort);
   
   /**
@@ -21,7 +23,6 @@ public class IndexSubsystem extends SubsystemBase {
    **/
   public IndexSubsystem() {
     indexMotor.setInverted(IndexConstants.kIndexInverted);
-    indexMotor.setNeutralMode(IndexConstants.kMotorIdleMode);
 
     Shuffleboard.getTab("Index").addBoolean("Is Ball Detected", this::isBallDetected);
   }
@@ -30,7 +31,7 @@ public class IndexSubsystem extends SubsystemBase {
    * Gets the current speed of the indexer.
    */
   public double getIndexSpeed() {
-    return indexMotor.get();
+    return indexMotor.getMotorOutputPercent();
   }
 
   /**
@@ -38,14 +39,14 @@ public class IndexSubsystem extends SubsystemBase {
    * @param speed How fast the index motor should spin. Goes from -1 to 1, with -1 being full reverse and 1 being full forwards.
    */
   public void setIndexSpeed(double speed) {
-    indexMotor.set(speed);
+    indexMotor.set(ControlMode.PercentOutput, speed);
   }
 
   /**
    * Stops the indexer. This should be done after the ball is completly in the indexer.
    */
   public void stopIndex() {
-    indexMotor.set(0);
+    indexMotor.set(ControlMode.PercentOutput, 0);
   }
   
   /**

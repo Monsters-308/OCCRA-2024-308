@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.IndexConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -22,7 +24,6 @@ public class IntakeCommand extends Command {
    * This command will finnish once the ball is detected in the robot.
    * 
    * @param intakeSubsystem the intake subsystem
-   * @param indexSubsystem the index subsystem
    */
   public IntakeCommand(IntakeSubsystem intakeSubsystem, IndexSubsystem indexSubsystem) {
     m_intakeSubsystem = intakeSubsystem;
@@ -37,8 +38,8 @@ public class IntakeCommand extends Command {
   // Called when the command starts
   @Override
   public void initialize() {
-    m_intakeSubsystem.setIntakeSpeed(1);
-    m_indexSubsystem.setIndexSpeed(1);
+    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kIntakeSpeed);
+    m_indexSubsystem.setIndexSpeed(IndexConstants.kIndexSpeed);
   }
 
   // Called once the command ends or is interrupted.

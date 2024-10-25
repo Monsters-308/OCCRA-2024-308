@@ -60,6 +60,9 @@ public final class Constants {
     // converting motor rotations to distance traveled (for odometry)
     public static final double kEncoderConversionFactor = kWheelCircumference / kGearRatio;
 
+    // Forwards should be positive for the encoders
+    public static final boolean kInvertEncoders = true;
+
     // kinematics
 
     // Track width: this is the distance between the wheels
@@ -83,10 +86,11 @@ public final class Constants {
     // Controls the sensitivity of the joysticks.
     // These will be edited by the driver for prefrence
     public static final double kDriverSensitvity = 0.5;
+    public static final double kRotationalSensitivity = 0.2;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 5.0; // Units per second
-    public static final double kRotationalSlewRateLimit = 5.0; // Units per second
+    public static final double kSpeedSlewRateLimit = 1.0; // Units per second
+    public static final double kRotationalSlewRateLimit = 2.0; // Units per second
   }
 
   public static final class IntakeConstants {
@@ -94,8 +98,10 @@ public final class Constants {
     public static final int kIntakeMotorChannel = 8;
 
      // make intake invert (positive = intake, negative = outtake) 
-    public static final boolean kIntakeInverted = false;
+    public static final boolean kIntakeInverted = true;
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
+
+    public static final double kIntakeSpeed = 0.3;
   }
 
   public static final class IndexConstants {
@@ -104,8 +110,10 @@ public final class Constants {
     public static final int kBallSensorPort = 0;
     
      // make index invert (positive = forwards, negative = backwards) 
-    public static final boolean kIndexInverted = false;
+    public static final boolean kIndexInverted = true;
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Brake;
+
+    public static final double kIndexSpeed = 0.3;
   }
 
   public static final class ShooterConstants {
@@ -117,7 +125,7 @@ public final class Constants {
     public static final int kSmartCurrentLimit = 30;
 
     public static final boolean kTopShooterMotorInverted = false; // makes top shooter wheel invert (positive = outwards, negative = inwards)
-    public static final boolean kBottomShooterMotorInverted = false; // makes bottom shooter wheel invert (positive = outwards, negative = inwards)
+    public static final boolean kBottomShooterMotorInverted = true; // makes bottom shooter wheel invert (positive = outwards, negative = inwards)
 
     public static final double kWheelDiamter = Units.inchesToMeters(4);
     public static final double kWheelCircumference = Math.PI * kWheelDiamter;
