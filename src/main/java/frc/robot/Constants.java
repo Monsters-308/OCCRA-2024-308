@@ -103,7 +103,7 @@ public final class Constants {
     public static final boolean kIntakeInverted = true;
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
 
-    public static final double kIntakeSpeed = 0.3;
+    public static final double kIntakeSpeed = 0.5;
   }
 
   public static final class IndexConstants {

@@ -22,7 +22,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -56,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkPIDController[] PIDControllers = new SparkPIDController[]{leftFrontPID, leftBackPID, rightFrontPID, rightBackPID};
 
   // The gyro sensor
-  private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+  private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry object: responsible for estimating the robot's position.
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
@@ -187,6 +187,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(ChassisSpeeds speeds) {
     // Invert x speed
     speeds = new ChassisSpeeds(-speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond);
+      -speeds.omegaRadiansPerSecond);
 
     DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);
 

@@ -94,7 +94,7 @@ public class RobotContainer {
     // The speed is controled by the analog input of the trigger.
     //m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
     m_coDriverController.leftTrigger(0.1)
-      .onTrue(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem))
+      .onTrue(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.75, 0.3), m_shooterSubsystem))
       .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem));
 
     // Configures the ball to launch when the right trigger is pressed.
@@ -134,11 +134,11 @@ public class RobotContainer {
    * This is handled in a separate function to keep things organized.
    */
   private void registerCommands() {
-    NamedCommands.registerCommand("Rev Up Shooter", new RepeatCommand(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem))
+    NamedCommands.registerCommand("Rev Up Shooter", new RepeatCommand(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.35), m_shooterSubsystem))
       .finallyDo(() -> m_shooterSubsystem.stopShooter())
     );
     NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));
-    NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+    NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem).withTimeout(3));
   }
 
   /**
