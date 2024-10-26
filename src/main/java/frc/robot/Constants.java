@@ -86,11 +86,13 @@ public final class Constants {
     // Controls the sensitivity of the joysticks.
     // These will be edited by the driver for prefrence
     public static final double kDriverSensitvity = 0.5;
-    public static final double kRotationalSensitivity = 0.2;
+    public static final double kRotationalSensitivity = 0.35;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
     public static final double kSpeedSlewRateLimit = 1.0; // Units per second
     public static final double kRotationalSlewRateLimit = 2.0; // Units per second
+
+    public static final double kMaxTurningSpeed = 0.7;
   }
 
   public static final class IntakeConstants {

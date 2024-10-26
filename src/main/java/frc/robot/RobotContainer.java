@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -52,7 +52,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final CommandXboxController m_coDriverController = new CommandXboxController(OperatorConstants.kCoDriverControllerPort);
 
-  private final SendableChooser<Command> m_autonChooser = AutoBuilder.buildAutoChooser();
+  private final SendableChooser<Command> m_autonChooser;
 
   private IntegerPublisher m_LEDIndexPublisher;
   private int m_LEDIndex;
@@ -68,6 +68,8 @@ public class RobotContainer {
 
     // Register commands to pathplanner
     registerCommands();
+
+    m_autonChooser = AutoBuilder.buildAutoChooser();
 
     Shuffleboard.getTab("Auton").add("Auton Selector", m_autonChooser);
   }
@@ -132,7 +134,7 @@ public class RobotContainer {
    * This is handled in a separate function to keep things organized.
    */
   private void registerCommands() {
-    NamedCommands.registerCommand("Rev Up Shooter", new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem)
+    NamedCommands.registerCommand("Rev Up Shooter", new RepeatCommand(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.3), m_shooterSubsystem))
       .finallyDo(() -> m_shooterSubsystem.stopShooter())
     );
     NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));

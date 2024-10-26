@@ -60,7 +60,7 @@ public class DriveCommand extends Command {
           getRightJoyStickInput.getAsDouble(),
           DriveConstants.kRotationalSensitivity,
           DriveConstants.kDeadBand)
-      )
+      ) * DriveConstants.kMaxTurningSpeed
     );
   }
 
