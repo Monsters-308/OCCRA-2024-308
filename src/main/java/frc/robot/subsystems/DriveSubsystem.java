@@ -186,7 +186,9 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds speeds) {
     // Invert x speed
-    speeds = new ChassisSpeeds(-speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond);
+    speeds = new ChassisSpeeds(
+      mirrorAuton.getEntry().getBoolean(false) ? -1 : 1 * -speeds.vxMetersPerSecond, 
+      speeds.vyMetersPerSecond, 
       -speeds.omegaRadiansPerSecond);
 
     DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);

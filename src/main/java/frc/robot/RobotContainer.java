@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.LEDConstants;
 
@@ -12,7 +13,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LaunchBallCommand;
 import frc.robot.commands.ReverseIntakeCommand;
-import frc.robot.commands.RevUpShooterCommand;
+import frc.robot.commands.RevUpShooterPercentCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -27,7 +28,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -94,8 +94,7 @@ public class RobotContainer {
     // The speed is controled by the analog input of the trigger.
     //m_coDriverController.leftTrigger(0.1).whileTrue(new RevUpShooterCommand(m_shooterSubsystem, m_coDriverController::getLeftTriggerAxis));
     m_coDriverController.leftTrigger(0.1)
-      .onTrue(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.75, 0.3), m_shooterSubsystem))
-      .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem));
+      .whileTrue(new RevUpShooterPercentCommand(m_shooterSubsystem, ShooterConstants.kTopShooterSpeed, ShooterConstants.kBottomShooterSpeed));
 
     // Configures the ball to launch when the right trigger is pressed.
     m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
@@ -134,8 +133,8 @@ public class RobotContainer {
    * This is handled in a separate function to keep things organized.
    */
   private void registerCommands() {
-    NamedCommands.registerCommand("Rev Up Shooter", new RepeatCommand(new InstantCommand(() -> m_shooterSubsystem.setPercent(0.7, 0.35), m_shooterSubsystem))
-      .finallyDo(() -> m_shooterSubsystem.stopShooter())
+    NamedCommands.registerCommand("Rev Up Shooter", 
+      new RevUpShooterPercentCommand(m_shooterSubsystem, ShooterConstants.kTopShooterSpeed, ShooterConstants.kBottomShooterSpeed)
     );
     NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));
     NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem).withTimeout(3));

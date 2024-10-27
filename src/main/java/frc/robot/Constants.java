@@ -89,9 +89,10 @@ public final class Constants {
     public static final double kRotationalSensitivity = 0.35;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 1.0; // Units per second
+    public static final double kSpeedSlewRateLimit = 0.5; // Units per second
     public static final double kRotationalSlewRateLimit = 2.0; // Units per second
 
+    public static final double kMaxForwardSpeed = 0.9;
     public static final double kMaxTurningSpeed = 0.7;
   }
 
@@ -142,7 +143,8 @@ public final class Constants {
     public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
 
-    public static final double kBackSpin = 0;
+    public static final double kTopShooterSpeed = 0.725;
+    public static final double kBottomShooterSpeed = 0.325;
   }
 
   public static final class ClimbConstants {

@@ -52,7 +52,7 @@ public class DriveCommand extends Command {
           getLeftJoyStickInput.getAsDouble(),
           DriveConstants.kDriverSensitvity,
           DriveConstants.kDeadBand)
-      ),
+      ) * DriveConstants.kMaxForwardSpeed,
 
       // Rotational 
       -rotationalSlewRateLimiter.calculate(
