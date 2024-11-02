@@ -145,13 +145,15 @@ public final class Constants {
 
     public static final double kTopShooterSpeed = 0.725;
     public static final double kBottomShooterSpeed = 0.325;
+
+    public static final double kBackupIntakeSpeedShooter = -0.15;
   }
 
   public static final class ClimbConstants {
     public static final int kClimbMotorID = 8;
 
     public static final boolean kClimbInverted = false;
-   
+  
   }
 
   public static final class OperatorConstants {
