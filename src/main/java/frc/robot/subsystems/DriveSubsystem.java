@@ -185,11 +185,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param speeds The desired translational and rotation speeds.
    */
   public void drive(ChassisSpeeds speeds) {
-    // Invert x speed
-    speeds = new ChassisSpeeds(
-      mirrorAuton.getEntry().getBoolean(false) ? -1 : 1 * -speeds.vxMetersPerSecond, 
-      speeds.vyMetersPerSecond, 
-      -speeds.omegaRadiansPerSecond);
+    // // Invert x speed
+    // speeds = new ChassisSpeeds(
+    //   mirrorAuton.getEntry().getBoolean(false) ? -1 : 1 * -speeds.vxMetersPerSecond, 
+    //   speeds.vyMetersPerSecond, 
+    //   -speeds.omegaRadiansPerSecond);
 
     DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);
 
@@ -272,6 +272,14 @@ public class DriveSubsystem extends SubsystemBase {
   } 
 
   /**
+   * Returns the gyro's angular velocity adjusted for inversion.
+   * @return The robot's angular velocity in degrees per second.
+   */
+  private double getGyroRate() {
+    return gyro.getRate() * (DriveConstants.kInvertGyro ? -1.0 : 1.0);
+  }
+
+  /**
    * Returns the heading of the robot.
    *
    * @return the robot's heading, constrained from -180 to 180 degrees.
@@ -300,11 +308,21 @@ public class DriveSubsystem extends SubsystemBase {
     // estimate the robot's rotational speed. However, the gyro
     // can also calculate the rotational speed of the robot, and 
     // that might be more accurate than using the encoders.
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(
+    // return DriveConstants.kDriveKinematics.toChassisSpeeds(
+    //   new DifferentialDriveWheelSpeeds(
+    //     getLeftVelocity(),
+    //     getRightVelocity()
+    //   ));
+
+    ChassisSpeeds speeds = DriveConstants.kDriveKinematics.toChassisSpeeds(
       new DifferentialDriveWheelSpeeds(
         getLeftVelocity(),
         getRightVelocity()
-      ));
+    ));
+
+    // Use the gyro's angular velocity
+    speeds.omegaRadiansPerSecond = Units.degreesToRadians(getGyroRate());
+    return speeds;
   }
 
   /**

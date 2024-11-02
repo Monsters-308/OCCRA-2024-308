@@ -89,10 +89,10 @@ public final class Constants {
     public static final double kRotationalSensitivity = 0.35;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 0.5; // Units per second
-    public static final double kRotationalSlewRateLimit = 2.0; // Units per second
+    public static final double kSpeedSlewRateLimit = 2.0; // Units per second
+    public static final double kRotationalSlewRateLimit = 4.0; // Units per second
 
-    public static final double kMaxForwardSpeed = 0.9;
+    public static final double kMaxForwardSpeed = 0.85;
     public static final double kMaxTurningSpeed = 0.7;
   }
 
