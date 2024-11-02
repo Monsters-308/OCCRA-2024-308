@@ -22,12 +22,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.Utils;
@@ -55,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkPIDController[] PIDControllers = new SparkPIDController[]{leftFrontPID, leftBackPID, rightFrontPID, rightBackPID};
 
   // The gyro sensor
-  private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+  private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry object: responsible for estimating the robot's position.
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
@@ -111,6 +112,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     applyAllMotors(motor -> motor.burnFlash());
 
+    resetOdometry(new Pose2d());
+
     /* Shuffleboard Configuration */
 
     // Gyro widget
@@ -123,15 +126,22 @@ public class DriveSubsystem extends SubsystemBase {
     // Field widget for displaying odometry estimation
     driveTab.add("Field", m_field)
       .withSize(6, 3);
+    
+    driveTab.addDouble("X pos", () -> getPose().getX());
+    driveTab.addDouble("Y pos", () -> getPose().getY());
 
     // For testing purposes
     driveTab.addDouble("Encoder error", () -> leftFrontEncoder.getPosition() - leftBackEncoder.getPosition());
     driveTab.addDouble("Gyro error", () -> Units.degreesToRadians(gyro.getRate()) - getChassisSpeeds().omegaRadiansPerSecond);
-    driveTab.addDouble("Left Speed", this::getLeftVelocity);
-    driveTab.addDouble("Right Speed", this::getRightVelocity);
+    driveTab.addDouble("Left Speed", () -> Math.round(getLeftVelocity() * 1000) / 1000.0);
+    driveTab.addDouble("Right Speed", () -> Math.round(getRightVelocity() * 1000) / 1000.0);
+    driveTab.addDouble("Left Pos", this::getLeftPosition);
+    driveTab.addDouble("Right Pos", this::getRightPosition);
+
     driveTab.addDouble("Rotational Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
     driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
     driveTab.add("Max Rotation", DriveConstants.kMaxAngularSpeed);
+    driveTab.add("I AM SPEED", new InstantCommand(() -> setPercent(1), this).repeatedly());
 
     /* Pathplanner Configuration */
 
@@ -175,10 +185,19 @@ public class DriveSubsystem extends SubsystemBase {
    * @param speeds The desired translational and rotation speeds.
    */
   public void drive(ChassisSpeeds speeds) {
-    drive(
-      speeds.vxMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond, 
-      speeds.omegaRadiansPerSecond / DriveConstants.kMaxAngularSpeed
-    );
+    // Invert x speed
+    speeds = new ChassisSpeeds(
+      mirrorAuton.getEntry().getBoolean(false) ? -1 : 1 * -speeds.vxMetersPerSecond, 
+      speeds.vyMetersPerSecond, 
+      -speeds.omegaRadiansPerSecond);
+
+    DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);
+
+    // write speeds to motors
+    leftFrontPID.setReference(wheelSpeeds.leftMetersPerSecond, ControlType.kVelocity);
+    leftBackPID.setReference(wheelSpeeds.leftMetersPerSecond, ControlType.kVelocity);
+    rightFrontPID.setReference(wheelSpeeds.rightMetersPerSecond, ControlType.kVelocity);
+    rightBackPID.setReference(wheelSpeeds.rightMetersPerSecond, ControlType.kVelocity);
   }
 
   /**
@@ -215,7 +234,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return How far the left side has traveled in meters.
    */
   public double getLeftPosition() {
-    return (leftFrontEncoder.getPosition() + leftBackEncoder.getPosition()) / 2.0;
+    return (DriveConstants.kInvertEncoders ? -1 : 1) * (leftFrontEncoder.getPosition() + leftBackEncoder.getPosition()) / 2.0;
   }
 
   /**
@@ -223,7 +242,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The wheel speed in meters per second.
    */
   public double getLeftVelocity(){
-    return (leftFrontEncoder.getVelocity() + leftBackEncoder.getVelocity()) / 2;
+    return (DriveConstants.kInvertEncoders ? -1 : 1) * (leftFrontEncoder.getVelocity() + leftBackEncoder.getVelocity()) / 2;
   }
 
   /**
@@ -232,7 +251,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return How far the right side has traveled in meters.
    */
   public double getRightPosition() {
-    return (rightFrontEncoder.getPosition() + rightBackEncoder.getPosition()) / 2.0;
+    return (DriveConstants.kInvertEncoders ? -1 : 1) * (rightFrontEncoder.getPosition() + rightBackEncoder.getPosition()) / 2.0;
   }
 
   /**
@@ -240,7 +259,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The wheel speed in meters per second.
    */
   public double getRightVelocity() {
-    return (rightFrontEncoder.getVelocity() + rightBackEncoder.getVelocity()) / 2;
+    return (DriveConstants.kInvertEncoders ? -1 : 1) * (rightFrontEncoder.getVelocity() + rightBackEncoder.getVelocity()) / 2;
   }
 
   /**
