@@ -13,6 +13,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LaunchBallCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.ShooterIntakeCommand;
 import frc.robot.commands.RevUpShooterPercentCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -86,11 +87,14 @@ public class RobotContainer {
       new DriveCommand(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightX)
     );
 
-    // Configures intake to start when the b button is held on the Co-Driver Controller
+    // Configures intake to start when the b button is held on the Co-Driver Controller.
     m_coDriverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexSubsystem));
 
-    // Configures the intake to reverse when the x button is held on the Co-Driver Controller
+    // Configures the intake to reverse when the x button is held on the Co-Driver Controller.
     m_coDriverController.x().whileTrue(new ReverseIntakeCommand(m_intakeSubsystem, m_indexSubsystem));
+
+    // Configures the shooter intake to start when the a button is held on the Co-Driver Controller.
+    m_coDriverController.a().whileTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_indexSubsystem));
 
     // Configures the shooter to rev up when the left trigger is held on the Co-Driver Controller.
     // The speed is controled by the analog input of the trigger.

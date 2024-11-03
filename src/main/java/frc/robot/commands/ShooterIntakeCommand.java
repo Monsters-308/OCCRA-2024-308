@@ -24,13 +24,13 @@ public class ShooterIntakeCommand extends Command {
     m_shooterSubsystem = shooterSubsystem;
     m_indexSubsystem = indexSubsystem;
 
-    addRequirements(shooterSubsystem);
+    addRequirements(shooterSubsystem, indexSubsystem);
   }
 
   @Override
   public void execute() {
     m_shooterSubsystem.setPercent(m_intakeShooterSpeed, m_intakeShooterSpeed);
-    m_indexSubsystem.setIndexSpeed(IndexConstants.kIndexSpeed);
+    m_indexSubsystem.setIndexSpeed(-IndexConstants.kIndexSpeed);
   }
 
   @Override
