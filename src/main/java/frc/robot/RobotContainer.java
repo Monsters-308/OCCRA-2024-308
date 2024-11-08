@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.NetworkTable;
@@ -63,6 +64,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    // Connect to camera
+    CameraServer.startAutomaticCapture();
+
     // Configure network tables to communicate with LEDs
     configureNetworkTables();
 
@@ -84,7 +89,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Configures robot to drive with joystick inputs by default
     m_driveSubsystem.setDefaultCommand(
-      new DriveCommand(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightX)
+      new DriveCommand(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightX, () -> m_driverController.rightBumper().getAsBoolean())
     );
 
     // Configures intake to start when the b button is held on the Co-Driver Controller.

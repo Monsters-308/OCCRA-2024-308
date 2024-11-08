@@ -4,18 +4,19 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.IndexConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private final Spark climbMotor = new Spark(ClimbConstants.kClimbMotorID);
+  private final BaseTalon winchMotor = new BaseTalon(IndexConstants.kIndexMotorChannel, "SRX");  
+  private final DigitalInput climbMotor = new DigitalInput(IndexConstants.kBallSensorPort);
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
-    climbMotor.setInverted(ClimbConstants.kClimbInverted);
+    
   }
 
   public void start(){

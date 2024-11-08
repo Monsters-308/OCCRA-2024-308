@@ -26,6 +26,9 @@ public class Utils {
      * @param deadband The deadband of the joystick to prevent stick drift. Any value lower than this, or above for negatives, will be made zero.
      */
     public static double sensitivityFunction(double rawSpeed, double sensitivity, double deadband) {
-        return Math.signum(rawSpeed) * Math.pow(Math.max(0, (Math.abs(rawSpeed)-deadband)/(1-deadband)), 0.5/sensitivity);
+        double speedSign = Math.signum(rawSpeed);
+        double speedWithDeadband = Math.abs(rawSpeed) < deadband ? 0 : Math.abs(rawSpeed);
+
+        return speedSign * Math.pow(speedWithDeadband, 0.5/sensitivity);
     }
 }

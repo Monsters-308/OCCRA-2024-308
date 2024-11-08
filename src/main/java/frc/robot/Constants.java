@@ -22,7 +22,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class MotorConstants {
-    public static final int kNeoMotorMaxRPM = 5676;
+    public static final double kNeoMotorMaxRPM = 5676.0;
   }
 
   public static final class DriveConstants {
@@ -90,9 +90,9 @@ public final class Constants {
 
     // Limits the rate of change of the driver speed and rotation, respectively.
     public static final double kSpeedSlewRateLimit = 2.0; // Units per second
-    public static final double kRotationalSlewRateLimit = 4.0; // Units per second
+    public static final double kRotationalSlewRateLimit = 10.0; // Units per second
 
-    public static final double kMaxForwardSpeed = 0.85;
+    public static final double kMaxForwardSpeed = 0.90;
     public static final double kMaxTurningSpeed = 0.7;
   }
 
@@ -104,7 +104,7 @@ public final class Constants {
     public static final boolean kIntakeInverted = true;
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
 
-    public static final double kIntakeSpeed = 0.5;
+    public static final double kIntakeSpeed = 0.7;
   }
 
   public static final class IndexConstants {
@@ -146,7 +146,7 @@ public final class Constants {
     public static final double kTopShooterSpeed = 0.725;
     public static final double kBottomShooterSpeed = 0.325;
 
-    public static final double kBackupIntakeSpeedShooter = -0.15;
+    public static final double kBackupIntakeSpeedShooter = -0.3;
   }
 
   public static final class ClimbConstants {
@@ -161,8 +161,11 @@ public final class Constants {
     public static final int kCoDriverControllerPort = 1;
   }
 
-  public static final class AutonomousConstants{
+  public static final class AutonomousConstants {
     public static final double kBallLaunchTimeout = 1;
+    
+    public static final double kBValue = 2.0;
+    public static final double kZetaValue = 0.7;
 
     public static final double kShooterSpeed = 0.5;
   }

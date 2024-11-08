@@ -52,20 +52,8 @@
                 "data": {
                   "name": "Intake"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Grab Ball"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Shoot Ball"
           }
         },
         {

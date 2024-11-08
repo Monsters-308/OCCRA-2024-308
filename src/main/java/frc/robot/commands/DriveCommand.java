@@ -8,6 +8,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.utils.Utils;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +21,8 @@ public class DriveCommand extends Command {
   private final DoubleSupplier getLeftJoyStickInput;
   private final DoubleSupplier getRightJoyStickInput; 
 
+  private final BooleanSupplier activateTurboMode;
+
   private final SlewRateLimiter speedSlewRateLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
   private final SlewRateLimiter rotationalSlewRateLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRateLimit);
 
@@ -31,10 +34,11 @@ public class DriveCommand extends Command {
    * @param leftInput a supplier providing the values for the left joystick.
    * @param rightInput a supplier providing the values for the right joystick.
    */
-  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier leftInput, DoubleSupplier rightInput) {
+  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier leftInput, DoubleSupplier rightInput, BooleanSupplier turboMode) {
     m_subsystem = subsystem;
     getLeftJoyStickInput = leftInput;
     getRightJoyStickInput = rightInput;
+    activateTurboMode = turboMode;
     
     // Use addRequirements() here to declare subsystem dependencies.
     // This makes it so that this command won't conflict with other commands
@@ -52,7 +56,7 @@ public class DriveCommand extends Command {
           getLeftJoyStickInput.getAsDouble(),
           DriveConstants.kDriverSensitvity,
           DriveConstants.kDeadBand)
-      ) * DriveConstants.kMaxForwardSpeed,
+      ) * (activateTurboMode.getAsBoolean() ? 1 : DriveConstants.kMaxForwardSpeed),
 
       // Rotational 
       -rotationalSlewRateLimiter.calculate(

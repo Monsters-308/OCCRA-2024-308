@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.Utils;
 
@@ -68,7 +69,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final ShuffleboardTab driveTab = Shuffleboard.getTab("Drive");
 
   // Shuffleboard widget to control mirroring autons
-  private final SimpleWidget mirrorAuton = driveTab.add("Mirror auton", false)
+  private final SimpleWidget mirrorAuton = Shuffleboard.getTab("Auton").add("Left side?", false)
     .withWidget(BuiltInWidgets.kToggleSwitch);
 
   // Field widget for displaying odometry
@@ -112,35 +113,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     applyAllMotors(motor -> motor.burnFlash());
 
-    resetOdometry(new Pose2d());
 
     /* Shuffleboard Configuration */
 
     // Gyro widget
-    driveTab.addDouble("Robot Heading", () -> getHeading().getDegrees())
-      .withWidget(BuiltInWidgets.kGyro)
-      .withSize(2, 2)
-      .withProperties(Map.of(
-        "Counter Clockwise", true));
+    driveTab.addDouble("Robot Heading", () -> getHeading().getDegrees());
     
     // Field widget for displaying odometry estimation
-    driveTab.add("Field", m_field)
-      .withSize(6, 3);
+    driveTab.add("Field", m_field);
     
     driveTab.addDouble("X pos", () -> getPose().getX());
     driveTab.addDouble("Y pos", () -> getPose().getY());
 
     // For testing purposes
-    driveTab.addDouble("Encoder error", () -> leftFrontEncoder.getPosition() - leftBackEncoder.getPosition());
-    driveTab.addDouble("Gyro error", () -> Units.degreesToRadians(gyro.getRate()) - getChassisSpeeds().omegaRadiansPerSecond);
+    // driveTab.addDouble("Encoder error", () -> leftFrontEncoder.getPosition() - leftBackEncoder.getPosition());
+    // driveTab.addDouble("Gyro error", () -> Units.degreesToRadians(gyro.getRate()) - getChassisSpeeds().omegaRadiansPerSecond);
     driveTab.addDouble("Left Speed", () -> Math.round(getLeftVelocity() * 1000) / 1000.0);
     driveTab.addDouble("Right Speed", () -> Math.round(getRightVelocity() * 1000) / 1000.0);
     driveTab.addDouble("Left Pos", this::getLeftPosition);
     driveTab.addDouble("Right Pos", this::getRightPosition);
 
     driveTab.addDouble("Rotational Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
-    driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
-    driveTab.add("Max Rotation", DriveConstants.kMaxAngularSpeed);
+    // driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
+    // driveTab.add("Max Rotation", DriveConstants.kMaxAngularSpeed);
     driveTab.add("I AM SPEED", new InstantCommand(() -> setPercent(1), this).repeatedly());
 
     /* Pathplanner Configuration */
@@ -150,6 +145,8 @@ public class DriveSubsystem extends SubsystemBase {
       this::resetOdometry, 
       this::getChassisSpeeds, 
       this::drive, 
+      AutonomousConstants.kBValue,
+      AutonomousConstants.kZetaValue,
       new ReplanningConfig(), 
       () -> mirrorAuton.getEntry().getBoolean(false), 
       this
@@ -186,10 +183,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds speeds) {
     // // Invert x speed
-    // speeds = new ChassisSpeeds(
-    //   mirrorAuton.getEntry().getBoolean(false) ? -1 : 1 * -speeds.vxMetersPerSecond, 
-    //   speeds.vyMetersPerSecond, 
-    //   -speeds.omegaRadiansPerSecond);
+    speeds = new ChassisSpeeds(
+      -speeds.vxMetersPerSecond, 
+      speeds.vyMetersPerSecond, 
+      -speeds.omegaRadiansPerSecond);
 
     DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(speeds);
 
