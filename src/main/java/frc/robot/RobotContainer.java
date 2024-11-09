@@ -24,7 +24,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,6 +80,8 @@ public class RobotContainer {
     m_autonChooser = AutoBuilder.buildAutoChooser();
 
     Shuffleboard.getTab("Auton").add("Auton Selector", m_autonChooser);
+
+    Shuffleboard.getTab("Auton").addDouble("Match Timer", () -> DriverStation.isTeleopEnabled() ? DriverStation.getMatchTime() : -1);
   }
 
   /** 

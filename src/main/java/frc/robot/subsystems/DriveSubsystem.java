@@ -13,7 +13,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.ControlType;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 import edu.wpi.first.math.geometry.Pose2d;
