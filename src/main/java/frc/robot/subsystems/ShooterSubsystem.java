@@ -31,6 +31,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   /** This creates a new shooter subsystem, which manages the speed of the shooter wheels, so the ball can move out at the correct speed. */
   public ShooterSubsystem() {
+    topShootMotor.restoreFactoryDefaults();
+    bottomShootMotor.restoreFactoryDefaults();
+
     topMotorPIDController.setP(ShooterConstants.kVelocityP);
     topMotorPIDController.setI(ShooterConstants.kVelocityI);
     topMotorPIDController.setD(ShooterConstants.kVelocityD);
@@ -39,7 +42,6 @@ public class ShooterSubsystem extends SubsystemBase {
     topMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
     topMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
 
-    topShootMotor.restoreFactoryDefaults();
     topShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
     topShootMotor.setInverted(ShooterConstants.kTopShooterMotorInverted);
     topShootMotor.burnFlash();
@@ -52,7 +54,6 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomMotorEncoder.setPositionConversionFactor(ShooterConstants.kTurningEncoderPositionFactor);
     bottomMotorEncoder.setVelocityConversionFactor(ShooterConstants.kTurningEncoderVelocityFactor);
     
-    bottomShootMotor.restoreFactoryDefaults();
     bottomShootMotor.setIdleMode(ShooterConstants.kShooterMotorIdleMode);
     bottomShootMotor.setInverted(ShooterConstants.kBottomShooterMotorInverted);
     bottomShootMotor.burnFlash();

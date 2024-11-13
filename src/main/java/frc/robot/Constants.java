@@ -104,7 +104,7 @@ public final class Constants {
     public static final boolean kIntakeInverted = true;
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
 
-    public static final double kIntakeSpeed = 0.7;
+    public static final double kIntakeSpeed = 0.8;
   }
 
   public static final class IndexConstants {
@@ -143,8 +143,8 @@ public final class Constants {
     public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
 
-    public static final double kTopShooterSpeed = 0.725;
-    public static final double kBottomShooterSpeed = 0.325;
+    public static final double kTopShooterSpeed = 0.73;
+    public static final double kBottomShooterSpeed = 0.33;
 
     public static final double kBackupIntakeSpeedShooter = -0.3;
   }
