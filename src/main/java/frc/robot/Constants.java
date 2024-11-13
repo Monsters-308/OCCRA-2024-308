@@ -97,14 +97,22 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    // Channel for Intake
     public static final int kIntakeMotorChannel = 8;
+    public static final int kFloatingIntakeMotorChannel = 5;
 
      // make intake invert (positive = intake, negative = outtake) 
     public static final boolean kIntakeInverted = true;
+    public static final boolean kFloatingIntakeInverted = false;
+    
+
+
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
 
-    public static final double kIntakeSpeed = 0.8;
+    public static final double kIntakeSpeed = 0.5;
+    public static final double kFloatingIntakeSpeed = 0.2;
+
+    public static final double kReverseIntakeSpeed = -0.7;
+    public static final double kReverseFloatingIntakeSpeed = -0.7;
   }
 
   public static final class IndexConstants {
@@ -117,6 +125,8 @@ public final class Constants {
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Brake;
 
     public static final double kIndexSpeed = 0.3;
+    
+    public static final double kReverseIndexSpeed = -0.7;
   }
 
   public static final class ShooterConstants {

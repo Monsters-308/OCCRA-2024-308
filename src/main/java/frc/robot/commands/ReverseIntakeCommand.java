@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.IndexConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,8 +37,8 @@ public class ReverseIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.setIntakeSpeed(-0.7);
-    m_indexSubsystem.setIndexSpeed(-0.7);
+    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kReverseIntakeSpeed, IntakeConstants.kReverseFloatingIntakeSpeed);
+    m_indexSubsystem.setIndexSpeed(IndexConstants.kReverseIndexSpeed);
   }
 
   // Called once the command ends or is interrupted.
