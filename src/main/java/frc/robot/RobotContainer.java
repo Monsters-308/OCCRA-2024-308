@@ -58,7 +58,6 @@ public class RobotContainer {
   private final SendableChooser<Command> m_autonChooser;
 
   private IntegerPublisher m_LEDIndexPublisher;
-  private DoublePublisher m_LEDAnimationProgressPublisher;
   private int m_LEDIndex;
   private int m_previousLEDIndex = 1;
 
@@ -139,7 +138,6 @@ public class RobotContainer {
     NetworkTable table = networkInstance.getTable(LEDConstants.LEDTableName);
 
     m_LEDIndexPublisher = table.getIntegerTopic(LEDConstants.LEDIndexName).publish();
-    m_LEDAnimationProgressPublisher = table.getDoubleTopic(LEDConstants.LEDAnimationProgressName).publish();
   }
 
   /**
