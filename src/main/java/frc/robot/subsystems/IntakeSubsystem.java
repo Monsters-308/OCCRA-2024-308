@@ -14,14 +14,14 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 
   private final BaseTalon bobIntakeMotor = new BaseTalon(IntakeConstants.kIntakeMotorChannel, "SRX");
-  private final BaseTalon bobsSonIntakeMotor = new BaseTalon(IntakeConstants.kFloatingIntakeMotorChannel, "SRX");
+  //private final BaseTalon bobsSonIntakeMotor = new BaseTalon(IntakeConstants.kFloatingIntakeMotorChannel, "SRX");
 
   /**
    * Creates a new IntakeSubsystem. which manages is what intakes the ball from the human players, or outtakes a ball or other object that should not be there.
    **/
   public IntakeSubsystem(){
     bobIntakeMotor.setInverted(IntakeConstants.kIntakeInverted);
-    bobsSonIntakeMotor.setInverted(IntakeConstants.kFloatingIntakeInverted);
+    // bobsSonIntakeMotor.setInverted(IntakeConstants.kFloatingIntakeInverted);
     
   }
 
@@ -35,9 +35,9 @@ public class IntakeSubsystem extends SubsystemBase {
   /**
    * Gets the current speed of the floating intake.
    */
-  public double getFloatingIntakeSpeed() {
-    return bobsSonIntakeMotor.getMotorOutputPercent();
-  }
+  // public double getFloatingIntakeSpeed() {
+  //   return bobsSonIntakeMotor.getMotorOutputPercent();
+  // }
 
 
 
@@ -47,7 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void setIntakeSpeed(double speed, double floatingSpeed) {
     bobIntakeMotor.set(ControlMode.PercentOutput, speed);
-    bobsSonIntakeMotor.set(ControlMode.PercentOutput, floatingSpeed);
+    // bobsSonIntakeMotor.set(ControlMode.PercentOutput, floatingSpeed);
   }
 
   /**
@@ -55,6 +55,6 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void stopIntake() {
     bobIntakeMotor.set(ControlMode.PercentOutput, 0);
-    bobsSonIntakeMotor.set(ControlMode.PercentOutput, 0);
+    // bobsSonIntakeMotor.set(ControlMode.PercentOutput, 0);
   }
 }
