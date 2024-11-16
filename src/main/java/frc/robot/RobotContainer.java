@@ -58,9 +58,7 @@ public class RobotContainer {
   private final SendableChooser<Command> m_autonChooser;
 
   private IntegerPublisher m_LEDIndexPublisher;
-  private DoublePublisher m_LEDAnimationProgressPublisher;
   private int m_LEDIndex;
-  private int m_previousLEDIndex = 1;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -113,24 +111,19 @@ public class RobotContainer {
     m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
 
     m_coDriverController.povUp().onTrue(new InstantCommand(() -> {
-      m_previousLEDIndex = m_LEDIndex;
-      m_LEDIndex = 0;
-      m_LEDIndexPublisher.set(m_LEDIndex);
-    }));
-
-    m_coDriverController.povLeft().onTrue(new InstantCommand(() -> {
-      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
-      m_LEDIndex = m_LEDIndex <= 1 ? LEDConstants.maxLEDIndex : m_LEDIndex - 1;
-    }));
-
-    m_coDriverController.povRight().onTrue(new InstantCommand(() -> {
-      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
-      m_LEDIndex = m_LEDIndex >= LEDConstants.maxLEDIndex ? 1 : m_LEDIndex + 1;
+      m_LEDIndexPublisher.set(Constants.LEDConstants.Feedme);
     }));
 
     m_coDriverController.povDown().onTrue(new InstantCommand(() -> {
-      m_LEDIndex = m_LEDIndex == 0 ? m_previousLEDIndex : m_LEDIndex;
-      m_LEDIndexPublisher.set(m_LEDIndex);
+      m_LEDIndexPublisher.set(Constants.LEDConstants.Yipee);
+    }));
+
+    m_coDriverController.povLeft().onTrue(new InstantCommand(() -> {
+      m_LEDIndexPublisher.set(Constants.LEDConstants.Boykisser);
+    }));
+
+    m_coDriverController.povRight().onTrue(new InstantCommand(() -> {
+      // m_LEDIndexPublisher.set();
     }));
   }
 
@@ -139,7 +132,6 @@ public class RobotContainer {
     NetworkTable table = networkInstance.getTable(LEDConstants.LEDTableName);
 
     m_LEDIndexPublisher = table.getIntegerTopic(LEDConstants.LEDIndexName).publish();
-    m_LEDAnimationProgressPublisher = table.getDoubleTopic(LEDConstants.LEDAnimationProgressName).publish();
   }
 
   /**

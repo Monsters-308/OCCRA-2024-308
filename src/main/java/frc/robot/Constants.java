@@ -183,7 +183,17 @@ public final class Constants {
   public static final class LEDConstants {
     public static final String LEDTableName = "LED Data";
     public static final String LEDIndexName = "Image Index";
-    public static final String LEDAnimationProgressName = "Animation Progress";
     public static final int maxLEDIndex = 5;
+
+    public static final int Idle = 0; // id of the led mode
+  
+    public static final int Feedme = 1; 
+    public static final int Boykisser = 2;
+    public static final int Yipee = 3;
+    
+    public static final int revupAni = 4;
+    public static final int Yummy = 5; 
+    
+
   }
 }
