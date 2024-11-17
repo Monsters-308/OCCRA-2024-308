@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.NetworkTable;
 
@@ -58,7 +57,6 @@ public class RobotContainer {
   private final SendableChooser<Command> m_autonChooser;
 
   private IntegerPublisher m_LEDIndexPublisher;
-  private int m_LEDIndex;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -111,15 +109,15 @@ public class RobotContainer {
     m_coDriverController.rightTrigger(0.3).whileTrue(new LaunchBallCommand(m_indexSubsystem));
 
     m_coDriverController.povUp().onTrue(new InstantCommand(() -> {
-      m_LEDIndexPublisher.set(Constants.LEDConstants.Feedme);
+      m_LEDIndexPublisher.set(LEDConstants.Feedme);
     }));
 
     m_coDriverController.povDown().onTrue(new InstantCommand(() -> {
-      m_LEDIndexPublisher.set(Constants.LEDConstants.Yipee);
+      m_LEDIndexPublisher.set(LEDConstants.Yipee);
     }));
 
     m_coDriverController.povLeft().onTrue(new InstantCommand(() -> {
-      m_LEDIndexPublisher.set(Constants.LEDConstants.Boykisser);
+      m_LEDIndexPublisher.set(LEDConstants.Boykisser);
     }));
 
     m_coDriverController.povRight().onTrue(new InstantCommand(() -> {
