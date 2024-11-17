@@ -37,7 +37,7 @@ public class ReverseIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kReverseIntakeSpeed, IntakeConstants.kReverseFloatingIntakeSpeed);
+    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kReverseIntakeSpeed);
     m_indexSubsystem.setIndexSpeed(IndexConstants.kReverseIndexSpeed);
   }
 

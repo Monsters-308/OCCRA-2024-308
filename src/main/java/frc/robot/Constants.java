@@ -98,21 +98,14 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakeMotorChannel = 8;
-    public static final int kFloatingIntakeMotorChannel = 34;
 
-     // make intake invert (positive = intake, negative = outtake) 
+    // make intake invert (positive = intake, negative = outtake) 
     public static final boolean kIntakeInverted = true;
-    public static final boolean kFloatingIntakeInverted = false;
     
-
-
     public static final NeutralModeValue kMotorIdleMode = NeutralModeValue.Coast;
 
     public static final double kIntakeSpeed = 0.8;
-    public static final double kFloatingIntakeSpeed = 0.8;
-
     public static final double kReverseIntakeSpeed = -0.7;
-    public static final double kReverseFloatingIntakeSpeed = -0.7;
   }
 
   public static final class IndexConstants {

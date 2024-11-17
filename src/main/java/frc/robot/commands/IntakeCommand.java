@@ -38,7 +38,7 @@ public class IntakeCommand extends Command {
   // Called when the command starts
   @Override
   public void initialize() {
-    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kIntakeSpeed, IntakeConstants.kFloatingIntakeSpeed);
+    m_intakeSubsystem.setIntakeSpeed(IntakeConstants.kIntakeSpeed);
     m_indexSubsystem.setIndexSpeed(IndexConstants.kIndexSpeed);
   }
 
