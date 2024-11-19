@@ -4,30 +4,30 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IndexConstants;
+import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private final BaseTalon winchMotor = new BaseTalon(IndexConstants.kIndexMotorChannel, "SRX");  
-  private final DigitalInput climbMotor = new DigitalInput(IndexConstants.kBallSensorPort);
+  private final BaseTalon winchMotor = new BaseTalon(ClimbConstants.kWinchMotorID, "SRX");  
+  private final BaseTalon climbMotor = new BaseTalon(ClimbConstants.kClimbMotorID, "SRX");  
+  
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
-    
+    winchMotor.setInverted(ClimbConstants.kWinchInverted);
+    climbMotor.setInverted(ClimbConstants.kClimbInverted);
   }
 
-  public void start(){
-    
+  public void moveClimber(double speed){
+    climbMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  public void stop(){
-    
+  public void setWinch(double speed){
+    winchMotor.set(ControlMode.PercentOutput, speed);
   }
-
-
 
   @Override
   public void periodic() {

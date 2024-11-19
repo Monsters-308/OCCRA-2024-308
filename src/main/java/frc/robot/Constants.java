@@ -153,10 +153,11 @@ public final class Constants {
   }
 
   public static final class ClimbConstants {
-    public static final int kClimbMotorID = 8;
+    public static final int kClimbMotorID = 34;
+    public static final int kWinchMotorID = 35;
 
     public static final boolean kClimbInverted = false;
-  
+    public static final boolean kWinchInverted = false;
   }
 
   public static final class OperatorConstants {
