@@ -133,7 +133,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveTab.addDouble("Right Pos", this::getRightPosition);
 
     driveTab.addDouble("Rotational Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
-    // driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
+    driveTab.add("Max Speed", DriveConstants.kMaxSpeedMetersPerSecond);
     // driveTab.add("Max Rotation", DriveConstants.kMaxAngularSpeed);
     driveTab.add("I AM SPEED", new InstantCommand(() -> setPercent(1), this).repeatedly());
 
@@ -217,7 +217,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param function This function is called for every motor. It passes one CANSparkMax object into the function.
    */
   private void applyAllMotors(Consumer<CANSparkMax> function) {
-    CANSparkMax[] motors = {leftFrontMotor, leftBackMotor, rightBackMotor, leftFrontMotor};
+    CANSparkMax[] motors = {leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor};
 
     for (int i = 0; i < motors.length; i++) {
       function.accept(motors[i]);
@@ -317,7 +317,7 @@ public class DriveSubsystem extends SubsystemBase {
     ));
 
     // Use the gyro's angular velocity
-    speeds.omegaRadiansPerSecond = Units.degreesToRadians(getGyroRate());
+    // speeds.omegaRadiansPerSecond = Units.degreesToRadians(getGyroRate());
     return speeds;
   }
 
