@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.42,
-      "y": 3.16
+      "x": 0.35,
+      "y": 3.08
     },
     "rotation": 0
   },
@@ -76,12 +76,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "shoot_close_ball"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -89,6 +83,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "shoot_close_ball"
+                      }
+                    },
                     {
                       "type": "wait",
                       "data": {
@@ -146,12 +146,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "shoot_far_ball"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -159,6 +153,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "shoot_far_ball"
+                      }
+                    },
                     {
                       "type": "wait",
                       "data": {

@@ -46,15 +46,16 @@ public final class Constants {
     // calculate the max theoretical speed in m/s (for pid)
     public static final double kWheelDiameter = Units.inchesToMeters(6);
     public static final double kWheelCircumference = kWheelDiameter * Math.PI;
-    public static final double kGearRatio = 8.45;
+    public static final double kGearRatio = 8.45865;
 
-    public static final double kMaxSpeedMetersPerSecond = 
-      ((MotorConstants.kNeoMotorMaxRPM / 60.0) / kGearRatio) * kWheelCircumference;
+    // public static final double kMaxSpeedMetersPerSecond = 
+    //   ((MotorConstants.kNeoMotorMaxRPM / 60.0) / kGearRatio) * kWheelCircumference;
+    public static final double kMaxSpeedMetersPerSecond = 5.6;
     
     // PID constants for controlling wheel velocity
-    public static final double kVelocityP = 0.01;
-    public static final double kVelocityI = 0;
-    public static final double kVelocityD = 0;
+    public static final double kVelocityP = 0.1;
+    public static final double kVelocityI = 0.;
+    public static final double kVelocityD = 0.;
     public static final double kVelocityFF = 1 / kMaxSpeedMetersPerSecond;
     
     // converting motor rotations to distance traveled (for odometry)
@@ -66,7 +67,7 @@ public final class Constants {
     // kinematics
 
     // Track width: this is the distance between the wheels
-    public static final double kTrackWidthMeters = Units.inchesToMeters(26);
+    public static final double kTrackWidthMeters = Units.inchesToMeters(35);
     // This may be larger due to scrubbing effects
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters); 
 
@@ -89,7 +90,7 @@ public final class Constants {
     public static final double kRotationalSensitivity = 0.35;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 2.0; // Units per second
+    public static final double kSpeedSlewRateLimit = 4; // Units per second
     public static final double kRotationalSlewRateLimit = 10.0; // Units per second
 
     public static final double kMaxForwardSpeed = 0.90;
@@ -146,8 +147,8 @@ public final class Constants {
     public static final double kTurningEncoderPositionFactor = kWheelCircumference / kGearRatio;
     public static final double kTurningEncoderVelocityFactor = (kWheelCircumference / kGearRatio) / 60;
 
-    public static final double kTopShooterSpeed = 0.73;
-    public static final double kBottomShooterSpeed = 0.33;
+    public static final double kTopShooterSpeed = 0.73; 
+    public static final double kBottomShooterSpeed = 0.33; 
 
     public static final double kBackupIntakeSpeedShooter = -0.3;
   }
