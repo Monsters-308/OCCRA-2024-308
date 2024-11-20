@@ -54,8 +54,8 @@ public final class Constants {
     
     // PID constants for controlling wheel velocity
     public static final double kVelocityP = 0.1;
-    public static final double kVelocityI = 0.;
-    public static final double kVelocityD = 0.;
+    public static final double kVelocityI = 0.0;
+    public static final double kVelocityD = 0.0;
     public static final double kVelocityFF = 1 / kMaxSpeedMetersPerSecond;
     
     // converting motor rotations to distance traveled (for odometry)
@@ -67,7 +67,7 @@ public final class Constants {
     // kinematics
 
     // Track width: this is the distance between the wheels
-    public static final double kTrackWidthMeters = Units.inchesToMeters(35);
+    public static final double kTrackWidthMeters = Units.inchesToMeters(26);
     // This may be larger due to scrubbing effects
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters); 
 
@@ -90,7 +90,7 @@ public final class Constants {
     public static final double kRotationalSensitivity = 0.35;
 
     // Limits the rate of change of the driver speed and rotation, respectively.
-    public static final double kSpeedSlewRateLimit = 4; // Units per second
+    public static final double kSpeedSlewRateLimit = 2; // Units per second
     public static final double kRotationalSlewRateLimit = 10.0; // Units per second
 
     public static final double kMaxForwardSpeed = 0.90;

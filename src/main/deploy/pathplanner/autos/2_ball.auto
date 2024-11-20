@@ -76,12 +76,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "shoot_close_ball"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -90,9 +84,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 0.5
+                        "pathName": "shoot_close_ball"
                       }
                     },
                     {
