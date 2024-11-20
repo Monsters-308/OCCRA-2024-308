@@ -10,6 +10,7 @@ import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.LEDConstants;
 
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DropIntakeCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LaunchBallCommand;
 import frc.robot.commands.ReverseIntakeCommand;
@@ -142,6 +143,7 @@ public class RobotContainer {
     );
     NamedCommands.registerCommand("Shoot", new LaunchBallCommand(m_indexSubsystem).withTimeout(AutonomousConstants.kBallLaunchTimeout));
     NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem, m_indexSubsystem).withTimeout(3));
+    NamedCommands.registerCommand("Drop Intake", new DropIntakeCommand(m_driveSubsystem));
   }
 
   /**
