@@ -126,6 +126,10 @@ public class RobotContainer {
     // }));
   }
 
+  /**
+   * This method configures NT tables used to communicate with the LEDs.
+   * This is handled in a separate function to keep things organized.
+   */
   private void configureNetworkTables() {
     NetworkTableInstance networkInstance = NetworkTableInstance.getDefault();
     NetworkTable table = networkInstance.getTable(LEDConstants.LEDTableName);
@@ -154,5 +158,20 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Run the command currently selected on shuffleboard
     return m_autonChooser.getSelected();
+  }
+
+  /** Set the drivetrain to brake mode when enabled. */
+  public void setBrakeMode() {
+    m_driveSubsystem.setBrakeMode();
+  }
+
+  /** Set the drivetrain to coast mode when disabled. */
+  public void setCoastMode() {
+    m_driveSubsystem.setCoastMode();
+  }
+
+  /** Stop drivetrain movement at the end of auton. */
+  public void stopDrivetrain() {
+    m_driveSubsystem.stopDrive();
   }
 }

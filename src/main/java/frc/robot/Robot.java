@@ -53,7 +53,14 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // Keep robot in coast mode when disabled.
+    // This makes it easier to align the robot for auton.
+    // This also reduces the risk of the robot tipping due to a sudden stop.
+    m_robotContainer.setCoastMode();
+
+    m_robotContainer.stopDrivetrain();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -61,6 +68,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    // Keep robot in brake mode when enabled.
+    m_robotContainer.setBrakeMode();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -82,6 +92,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Keep the robot in brake mode when enabled.
+    m_robotContainer.setBrakeMode();
   }
 
   /** This function is called periodically during operator control. */

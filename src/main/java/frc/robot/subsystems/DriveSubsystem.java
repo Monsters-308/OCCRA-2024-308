@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import java.util.function.Consumer;
 
@@ -202,6 +203,16 @@ public class DriveSubsystem extends SubsystemBase {
     applyAllMotors((motor) -> motor.set(0));
   }
 
+  /** Sets all of the drive motors to brake mode. */
+  public void setBrakeMode() {
+    applyAllMotors((motor) -> motor.setIdleMode(IdleMode.kBrake));
+  }
+
+  /** Sets all of the drive motors to coast mode. */
+  public void setCoastMode() {
+    applyAllMotors((motor) -> motor.setIdleMode(IdleMode.kCoast));
+  }
+
   /**
    * Sets the drive motors to a specified percentage.
    * THIS IS FOR TESTING PURPOSES.
@@ -299,15 +310,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The chassis speeds.
    */
   public ChassisSpeeds getChassisSpeeds(){
-    // NOTE: currently this is using the wheel speeds in order to 
-    // estimate the robot's rotational speed. However, the gyro
-    // can also calculate the rotational speed of the robot, and 
-    // that might be more accurate than using the encoders.
-    // return DriveConstants.kDriveKinematics.toChassisSpeeds(
-    //   new DifferentialDriveWheelSpeeds(
-    //     getLeftVelocity(),
-    //     getRightVelocity()
-    //   ));
 
     ChassisSpeeds speeds = DriveConstants.kDriveKinematics.toChassisSpeeds(
       new DifferentialDriveWheelSpeeds(
