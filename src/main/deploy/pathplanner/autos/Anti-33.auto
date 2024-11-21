@@ -44,6 +44,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Drop Intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
