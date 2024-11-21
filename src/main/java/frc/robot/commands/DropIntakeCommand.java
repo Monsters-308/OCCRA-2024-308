@@ -13,8 +13,8 @@ public class DropIntakeCommand extends SequentialCommandGroup {
   
     public DropIntakeCommand(DriveSubsystem driveSubsystem) {
         addCommands(
-            new InstantCommand(() -> driveSubsystem.setPercent(1), driveSubsystem),
-            new WaitCommand(0.1),
+            new InstantCommand(() -> driveSubsystem.setPercent(-1), driveSubsystem),
+            new WaitCommand(0.15),
             new InstantCommand(() -> driveSubsystem.stopDrive(), driveSubsystem)
         );
     }
