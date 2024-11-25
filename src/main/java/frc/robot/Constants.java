@@ -153,14 +153,6 @@ public final class Constants {
     public static final double kBackupIntakeSpeedShooter = -0.3;
   }
 
-  public static final class ClimbConstants {
-    public static final int kClimbMotorID = 34;
-    public static final int kWinchMotorID = 35;
-
-    public static final boolean kClimbInverted = false;
-    public static final boolean kWinchInverted = false;
-  }
-
   public static final class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kCoDriverControllerPort = 1;

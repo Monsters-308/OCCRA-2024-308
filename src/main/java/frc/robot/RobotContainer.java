@@ -16,7 +16,6 @@ import frc.robot.commands.LaunchBallCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.ShooterIntakeCommand;
 import frc.robot.commands.RevUpShooterPercentCommand;
-import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -49,7 +48,6 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexSubsystem m_indexSubsystem = new IndexSubsystem();
-  // private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // Controllers
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
